@@ -6,7 +6,7 @@
 - Zawartość: przykładowe projekty stron (fikcyjne, bez linków), PhishingInspector i BlokerDanych z linkami do Microsoft Store (nie Google — korekta Claude).
 
 ## Stan
-- Makieta robocza, NIEOPUBLIKOWANA, bez gita. `index.html` (jedna strona: hero, usługi, 3 studia przypadków, galeria, proces, stos, kontakt) + `koncepcje\{kancelaria,serwis,gabinet}.html` (miniatury iframe skalowane JS, powiększenie w `<dialog>`).
+- Makieta robocza, NIEOPUBLIKOWANA. Od 2026-11-05 git: prywatne repo https://github.com/3en4all/tmp (gałąź main; commity z `-c user.name=3en4all -c user.email=3en4all@gmail.com`). Docelowo przenieść na konto pod nazwiskiem. `index.html` (jedna strona: hero, usługi, 3 studia przypadków, galeria, proces, stos, kontakt) + `koncepcje\{kancelaria,serwis,gabinet}.html` (miniatury iframe skalowane JS, powiększenie w `<dialog>`).
 - 2026-11-05: dodane koncepcje `eventy` (dekoracje, pod zlecenia typu AnnDecor z Useme) i `remonty`. Galeria pokazuje teraz obrazy `koncepcje\img\*.png` (1280×800), kliknięcie otwiera żywy HTML. PNG odświeżać po zmianie koncepcji: Chrome `--headless=new --window-size=1280,800 --screenshot=...` (Edge nie jest zainstalowany).
 - Szablon oferty na zlecenia one page: `oferty\SZABLON-useme-onepage.md` (cena 650–700 zł netto, 4–5 dni, 2 rundy poprawek, PNG koncepcji w załączniku).
 - Sprawdzone: widok telefonu (miniatury, brak przewijania w bok). Desktop niesprawdzony.
