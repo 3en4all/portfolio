@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>[Imię Nazwisko] — IT i automatyzacja</title>
+<style>
+:root{--bg:#0f1115;--panel:#161a21;--line:#262c36;--text:#e6e8eb;--mute:#9aa3ae;--acc:#4fb3a9;--acc2:#e0b354}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#f6f7f9;--panel:#fff;--line:#dfe3e8;--text:#14181e;--mute:#5b6570;--acc:#1f7f76;--acc2:#a8741a}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,"Segoe UI",Roboto,sans-serif}
+a{color:var(--acc)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+nav{position:sticky;top:0;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);z-index:5}
+nav .wrap{display:flex;gap:20px;align-items:center;height:56px;overflow-x:auto}
+nav b{margin-right:auto;white-space:nowrap}
+nav a{color:var(--mute);text-decoration:none;font-size:14px;white-space:nowrap}
+nav a:hover{color:var(--text)}
+section{padding:72px 0;border-bottom:1px solid var(--line)}
+h1{font-size:clamp(32px,5vw,52px);line-height:1.1;margin:0 0 16px}
+h2{font-size:28px;margin:0 0 8px}
+.lead{color:var(--mute);font-size:19px;max-width:640px}
+.kick{color:var(--acc);font:600 13px/1 ui-monospace,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px}
+.btn{display:inline-block;padding:12px 20px;border-radius:6px;background:var(--acc);color:#fff;text-decoration:none;font-weight:600;margin:8px 8px 0 0}
+.btn.ghost{background:none;border:1px solid var(--line);color:var(--text)}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));margin-top:32px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:24px}
+.card h3{margin:0 0 8px;font-size:19px}
+.card p{margin:0 0 8px;color:var(--mute)}
+.tag{display:inline-block;font:12px/1 ui-monospace,Consolas,monospace;border:1px solid var(--line);border-radius:4px;padding:5px 7px;margin:4px 4px 0 0;color:var(--mute)}
+.case{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:32px}
+.case dl{margin:0}.case dt{font-weight:600;margin-top:12px}.case dd{margin:2px 0 0;color:var(--mute)}
+.soon{font-size:13px;color:var(--acc2)}
+.gallery{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-top:32px}
+nav .wrap{scrollbar-width:none}
+.frame{margin:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel);cursor:zoom-in}
+.frame .bar{height:28px;display:flex;gap:6px;align-items:center;padding:0 10px;border-bottom:1px solid var(--line)}
+.frame .bar i{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.frame img{display:block;width:100%;height:auto;aspect-ratio:1280/800;object-fit:cover}
+.frame figcaption{padding:12px 14px;font-size:14px;color:var(--mute)}
+.frame figcaption b{color:var(--text)}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:32px;counter-reset:s}
+.flow div{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;counter-increment:s}
+.flow div::before{content:"0" counter(s);display:block;font:700 24px ui-monospace,Consolas,monospace;color:var(--acc);margin-bottom:6px}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
+.ba .card:first-child{border-color:color-mix(in srgb,var(--acc2) 50%,var(--line))}
+.ba .card:last-child{border-color:color-mix(in srgb,var(--acc) 50%,var(--line))}
+form{display:grid;gap:12px;max-width:520px;margin-top:24px}
+input,textarea{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px;color:var(--text);font:inherit}
+label{font-size:14px;color:var(--mute)}
+footer{padding:32px 0;color:var(--mute);font-size:14px}
+dialog{border:0;padding:0;background:none;max-width:95vw}
+dialog iframe{width:min(1280px,92vw);height:85vh;border:0;border-radius:10px;background:#fff}
+dialog::backdrop{background:rgba(0,0,0,.75)}
+@media (max-width:720px){.case,.ba{grid-template-columns:1fr}section{padding:48px 0}}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+<b>[Imię Nazwisko]</b>
+<a href="#uslugi">Usługi</a><a href="#projekty">Projekty</a><a href="#strony">Strony</a><a href="#proces">Współpraca</a><a href="#kontakt">Kontakt</a>
+</div></nav>
+
+<header><section><div class="wrap">
+<div class="kick">Zdalnie · IT · Automatyzacja · Lokalne AI</div>
+<h1>Utrzymuję IT małych firm i automatyzuję to, co zjada wam czas.</h1>
+<p class="lead">Administracja i wsparcie zdalne, bezpieczeństwo poczty, automatyzacja procesów oraz sztuczna inteligencja uruchamiana na waszym sprzęcie — dane nie wychodzą z firmy.</p>
+<a class="btn" href="#kontakt">Porozmawiajmy</a><a class="btn ghost" href="#projekty">Zobacz projekty</a><a class="btn ghost" href="#">CV (PDF)</a>
+</div></section></header>
+
+<section id="uslugi"><div class="wrap">
+<div class="kick">Usługi</div>
+<h2>Dwa obszary, jedna osoba do kontaktu</h2>
+<div class="grid">
+<div class="card"><h3>Administracja i wsparcie IT</h3><p>Komputery, sieć, kopie zapasowe, konta Microsoft 365 / Google. Pomoc zdalna, gdy coś przestaje działać.</p><span class="tag">Windows</span><span class="tag">sieć</span><span class="tag">backup</span></div>
+<div class="card"><h3>Bezpieczeństwo poczty i danych</h3><p>Sprawdzenie SPF/DKIM/DMARC, analiza podejrzanych wiadomości, anonimizacja dokumentów przed wysłaniem.</p><span class="tag">NIS2</span><span class="tag">RODO</span><span class="tag">phishing</span></div>
+<div class="card"><h3>Automatyzacja procesów</h3><p>Powtarzalne czynności — raporty, publikacje, przetwarzanie plików — zamienione w skrypty i kolejki, które działają same.</p><span class="tag">Python</span><span class="tag">PowerShell</span><span class="tag">n8n</span></div>
+<div class="card"><h3>Lokalne AI w firmie</h3><p>Modele językowe i rozpoznawanie mowy na waszym komputerze. Bez abonamentu w chmurze i bez wysyłania dokumentów na zewnątrz.</p><span class="tag">Ollama</span><span class="tag">ASR/TTS</span><span class="tag">offline</span></div>
+</div>
+</div></section>
+
+<section id="projekty"><div class="wrap">
+<div class="kick">Projekty</div>
+<h2>Własne produkty</h2>
+
+<div class="case card">
+<div><h3>BlokerDanych</h3>
+<p>Aplikacja Windows, która offline zaczernia dane osobowe w plikach PDF — PESEL, adresy, numery kont — zanim dokument trafi dalej.</p>
+<span class="tag">Python</span><span class="tag">PySide6</span><span class="tag">OCR</span><span class="tag">MSIX</span><span class="tag">271 testów</span>
+<p style="margin-top:16px"><a class="btn" href="#">Microsoft Store</a> <span class="soon">wkrótce</span></p></div>
+<dl><dt>Problem</dt><dd>Biura wysyłają skany z danymi osobowymi; ręczne zamazywanie jest wolne i zawodne.</dd>
+<dt>Rozwiązanie</dt><dd>Wykrywanie danych (także w skanach przez OCR) i trwałe usunięcie z pliku, bez internetu.</dd>
+<dt>Efekt</dt><dd>[do uzupełnienia: czas na dokument / liczba wykrywanych typów danych]</dd></dl>
+</div>
+
+<div class="case card" style="margin-top:16px">
+<div><h3>PhishingInspector</h3>
+<p>Analiza podejrzanej wiadomości e-mail: nagłówki, SPF/DKIM, ścieżka serwerów, linki i załączniki — z wynikiem zrozumiałym dla nie-informatyka.</p>
+<span class="tag">Python</span><span class="tag">analiza nagłówków</span><span class="tag">Supabase</span><span class="tag">open source</span>
+<p style="margin-top:16px"><a class="btn" href="https://github.com/3en4all/PhishingInspector">GitHub</a> <a class="btn ghost" href="#">Microsoft Store</a> <span class="soon">wkrótce</span></p></div>
+<dl><dt>Problem</dt><dd>Pracownik nie odróżni fałszywej faktury od prawdziwej, a jedno kliknięcie wystarczy.</dd>
+<dt>Rozwiązanie</dt><dd>Przeciągasz wiadomość, dostajesz ocenę ryzyka i wyjaśnienie każdego sygnału.</dd>
+<dt>Dla kogo</dt><dd>Biura rachunkowe, serwisy IT, małe firmy objęte NIS2.</dd></dl>
+</div>
+
+<div class="case card" style="margin-top:16px">
+<div><h3>Automatyczna produkcja treści</h3>
+<p>System, który z planu tworzy film: tekst, lektor, kontrola jakości mowy, montaż i wgranie na kilka kanałów jednocześnie.</p>
+<span class="tag">lokalne LLM</span><span class="tag">TTS</span><span class="tag">ASR QC</span><span class="tag">FFmpeg</span><span class="tag">API</span></div>
+<div class="ba"><div class="card"><h3>Przed</h3><p>Każdy film ręcznie: nagranie, montaż, wgranie, opis na każdy kanał osobno.</p></div>
+<div class="card"><h3>Po</h3><p>Kolejka robi wszystko sama; człowiek zatwierdza tylko tekst i gotowy film.</p></div></div>
+</div>
+</div></section>
+
+<section id="strony"><div class="wrap">
+<div class="kick">Projekty stron</div>
+<h2>Koncepcje graficzne</h2>
+<p class="lead">Przykładowe projekty dla fikcyjnych firm. Kliknij, żeby powiększyć.</p>
+<div class="gallery">
+<figure class="frame" data-src="koncepcje/kancelaria.html"><div class="bar"><i></i><i></i><i></i></div><img src="koncepcje/img/kancelaria.png" alt="Koncepcja strony: Kancelaria" loading="lazy" width="1280" height="800"><figcaption><b>Kancelaria prawna</b> · stonowana, zaufanie, typografia szeryfowa</figcaption></figure>
+<figure class="frame" data-src="koncepcje/serwis.html"><div class="bar"><i></i><i></i><i></i></div><img src="koncepcje/img/serwis.png" alt="Koncepcja strony: Serwis IT" loading="lazy" width="1280" height="800"><figcaption><b>Serwis komputerowy</b> · cennik, szybki kontakt, status zgłoszenia</figcaption></figure>
+<figure class="frame" data-src="koncepcje/gabinet.html"><div class="bar"><i></i><i></i><i></i></div><img src="koncepcje/img/gabinet.png" alt="Koncepcja strony: Gabinet" loading="lazy" width="1280" height="800"><figcaption><b>Gabinet fizjoterapii</b> · jasna, spokojna, rezerwacja wizyt</figcaption></figure>
+<figure class="frame" data-src="koncepcje/eventy.html"><div class="bar"><i></i><i></i><i></i></div><img src="koncepcje/img/eventy.png" alt="Koncepcja strony: Dekoracje eventowe" loading="lazy" width="1280" height="800"><figcaption><b>Dekoracje i eventy</b> · duże zdjęcia, formularz z datą i liczbą gości</figcaption></figure>
+<figure class="frame" data-src="koncepcje/remonty.html"><div class="bar"><i></i><i></i><i></i></div><img src="koncepcje/img/remonty.png" alt="Koncepcja strony: Firma remontowa" loading="lazy" width="1280" height="800"><figcaption><b>Firma remontowa</b> · telefon na wierzchu, przed/po, liczby</figcaption></figure>
+</div>
+</div></section>
+
+<section id="proces"><div class="wrap">
+<div class="kick">Współpraca</div>
+<h2>Jak pracujemy</h2>
+<div class="flow">
+<div><b>Rozmowa</b><p>30 minut online: co boli i co ma działać.</p></div>
+<div><b>Wycena</b><p>Konkretny zakres i cena, bez niespodzianek.</p></div>
+<div><b>Wdrożenie</b><p>Zdalnie, z dokumentacją tego, co zrobione.</p></div>
+<div><b>Wsparcie</b><p>Abonament albo pomoc na zgłoszenie.</p></div>
+</div>
+<p class="lead" style="margin-top:32px">Stos: Python, PowerShell, Windows / MSIX, Ollama, Supabase, n8n, Git, FFmpeg.</p>
+</div></section>
+
+<section id="kontakt"><div class="wrap">
+<div class="kick">Kontakt</div>
+<h2>Napisz, czego potrzebujesz</h2>
+<p class="lead"><a href="#">LinkedIn</a> · <a href="#">[e-mail zawodowy]</a></p>
+<form onsubmit="event.preventDefault();alert('Makieta — formularz jeszcze niepodłączony.')">
+<label for="n">Imię lub firma</label><input id="n" required>
+<label for="e">E-mail</label><input id="e" type="email" required>
+<label for="m">Wiadomość</label><textarea id="m" rows="5" required></textarea>
+<button class="btn" style="border:0;cursor:pointer;justify-self:start">Wyślij</button>
+</form>
+</div></section>
+
+<footer><div class="wrap">© 2026 [Imię Nazwisko] · makieta robocza</div></footer>
+
+<dialog id="d"><iframe title="Podgląd koncepcji"></iframe></dialog>
+<script>
+const d=document.getElementById('d');
+document.querySelectorAll('.frame').forEach(f=>f.onclick=()=>{d.querySelector('iframe').src=f.dataset.src;d.showModal()});
+d.onclick=()=>d.close();
+</script>
+</body>
+</html>
