@@ -18,10 +18,14 @@ btn.addEventListener('click', async () => {
             gpuAcceleratedSort: false,
             useBuiltInControls: true,
         });
+        // GitHub Pages wysyła gzip z Content-Length mniejszym niż dane, a loader biblioteki ufa temu nagłówkowi;
+        // dlatego pobieramy sami i podajemy blob URL z prawdziwym rozmiarem.
+        const blob = async p => { const r = await fetch(p); if (!r.ok) throw new Error(p + ' ' + r.status); return URL.createObjectURL(await r.blob()); };
+        const [serwery, karta] = await Promise.all(['assets/3d/serwerownia.splat', 'assets/3d/karta.splat'].map(blob));
         await viewer.addSplatScenes([
-            { path: 'assets/3d/serwerownia.splat', format: GS.SceneFormat.Splat },
+            { path: serwery, format: GS.SceneFormat.Splat },
             // karta graficzna leży przed szafami, obrócona wzdłuż rzędu
-            { path: 'assets/3d/karta.splat', format: GS.SceneFormat.Splat,
+            { path: karta, format: GS.SceneFormat.Splat,
               position: [0, 0.12, 0.75], rotation: [0, 0.7071068, 0, 0.7071068], scale: [0.7, 0.7, 0.7] },
         ], false);
         viewer.start();
