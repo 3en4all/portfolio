@@ -57,13 +57,19 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
 .v3d canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
 .v3d .btn{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);margin:0;border:0;font:inherit;font-weight:600;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.25)}
 .v3d.is-live{background:#d9dce0}.v3d.is-live .btn{display:none}
-@media (max-width:720px){.case,.ba{grid-template-columns:1fr}section{padding:48px 0}.v3d{aspect-ratio:4/3}}
+.prod{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px}
+.prod>img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border:1px solid var(--line);border-radius:10px}
+.prod .v3d{margin-top:0;aspect-ratio:4/3;background:#d9dce0}
+.prod .v3d.is-live{background:#e9ebee}
+.prod figcaption{grid-column:1/-1;color:var(--mute)}
+.prod figcaption b{color:var(--text);font-size:19px;display:block}
+@media (max-width:720px){.case,.ba,.prod{grid-template-columns:1fr}section{padding:48px 0}.v3d{aspect-ratio:4/3}}
 </style>
 </head>
 <body>
 <nav><div class="wrap">
 <b>IT · automatyzacja · strony</b>
-<a href="#uslugi">Usługi</a><a href="#projekty">Projekty</a><a href="#demo3d">3D</a><a href="#strony">Strony</a><a href="#proces">Współpraca</a>
+<a href="#uslugi">Usługi</a><a href="#projekty">Projekty</a><a href="#demo3d">3D</a><a href="#produkty">Produkty 3D</a><a href="#strony">Strony</a><a href="#proces">Współpraca</a>
 </div></nav>
 
 <header><section><div class="wrap">
@@ -124,6 +130,17 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
 <p style="margin-top:12px"><span class="tag">Gaussian splatting</span><span class="tag">lokalne GPU</span><span class="tag">WebGL</span><span class="tag">podgląd produktu</span></p>
 </div></section>
 
+<section id="produkty"><div class="wrap">
+<div class="kick">Wizualizacje produktów 3D</div>
+<h2>Produkt, który klient może obrócić</h2>
+<p class="lead">Interaktywne prezentacje opakowań na stronę, do sklepu internetowego i kampanii. Klient obraca produkt w przeglądarce, bez instalowania czegokolwiek. Pracuję na zdjęciach produktu, plikach produkcyjnych opakowania albo na przesłanym egzemplarzu.</p>
+<figure class="prod"><img src="assets/produkty/butelka.jpg" alt="Butelka szamponu 3EN4ALL — zdjęcie" loading="lazy" width="960" height="524"><div class="v3d" data-splat="assets/3d/opakowania/butelka.splat" data-yaw="1.59" data-pitch="0.1"><button class="btn" type="button">Obejrzyj w 3D (8 MB)</button></div><figcaption><b>Linia kosmetyków</b>Butelka szamponu: prezentacja produktu na stronę sklepu.</figcaption></figure>
+<figure class="prod"><img src="assets/produkty/pudelko.jpg" alt="Pudełko z pieczęcią 3EN4ALL — zdjęcie" loading="lazy" width="960" height="524"><div class="v3d" data-splat="assets/3d/opakowania/pudelko.splat" data-yaw="0.77" data-pitch="0.35"><button class="btn" type="button">Obejrzyj w 3D (8 MB)</button></div><figcaption><b>Opakowanie premium</b>Pudełko z lakową pieczęcią: wizualizacja na premierę produktu.</figcaption></figure>
+<figure class="prod"><img src="assets/produkty/saszetka.jpg" alt="Saszetka 3EN4ALL — zdjęcie" loading="lazy" width="960" height="719"><div class="v3d" data-splat="assets/3d/opakowania/saszetka.splat" data-yaw="1.32" data-pitch="0.2"><button class="btn" type="button">Obejrzyj w 3D (8 MB)</button></div><figcaption><b>Opakowanie miękkie</b>Saszetka z fałdami: wizualizacja do kampanii i social mediów.</figcaption></figure>
+<p style="margin-top:24px">Chcesz tak pokazać swój produkt? Napisz, a wycenę przygotuję po obejrzeniu materiałów. Inne formy współpracy i niestandardowe zakresy — po indywidualnym uzgodnieniu.</p>
+<p><span class="tag">projekty demonstracyjne</span><span class="tag">marka własna 3EN4ALL</span><span class="tag">WebGL</span></p>
+</div></section>
+
 <section id="strony"><div class="wrap">
 <div class="kick">Projekty stron</div>
 <h2>Koncepcje graficzne</h2>
@@ -159,5 +176,6 @@ d.onclick=()=>d.close();
 </script>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","@mkkellogg/gaussian-splats-3d":"https://cdn.jsdelivr.net/npm/@mkkellogg/gaussian-splats-3d@0.4.6/build/gaussian-splats-3d.module.js"}}</script>
 <script type="module" src="js/demo3d.js?v=2"></script>
+<script type="module" src="js/produkty3d.js?v=3"></script>
 </body>
 </html>
