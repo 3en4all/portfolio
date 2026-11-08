@@ -22,7 +22,7 @@ Uporządkowany 8.11 (kopia: `D:\Projects\_stan\kopie\portfolio-STAN-20261108-*-p
 **Zrobione 7.11 (próbki z obrazów Gemini, `I:\foty\opakowania`, marka 3EN4ALL):**
 - idol3D, 3 obiekty × 2 tryby, ok. 2 min/obiekt (`idol3D\generuj-opakowania.ps1`). Wybór po ocenie: butelka REAL (synthetic: czarny pas na bokach), pudełko i saszetka SYNTHETIC (real: zmyślona taśma z tyłu). Tył etykiet zmyślony, przód czytelny.
 - Sekcja `#produkty` + `js\produkty3d.js` (karta = zdjęcie + model 3D; jedna przeglądarka naraz; `dispose()` w GaussianSplats3D 0.4.6 rzuca removeChild — przechwycone), `.splat` ok. 7,7 MB każdy. Sprawdzone: desktop, telefon, przełączanie modeli.
-- **Commit `39195a0` na gałęzi `produkty3D` — NIE wypchnięty** (użytkownik 7.11: „niczego nie publikuj”).
+- Commit `39195a0` opublikowany 8.11 razem z przebudową (stare modele z napisami są w nim, na stronie już zielona seria).
 - Postrzępione napisy to granica modelu idol: 1 mln Gaussianów (31 MB) wygląda tak samo jak 262 tys. (7,8 MB); próg alfa bez znaczenia. Zostajemy przy 262 tys.
 - Hunyuan3D-2: na tym komputerze tylko kształt (szare GLB), tekstura przekracza 20 GB RAM; 19:41 bez limitu zawiesił system. Koniec prób tutaj (decyzja użytkownika). Szczegóły: `E:\glowny3EN4ALL\projekty\hunyuan3D\STAN.md`.
 
@@ -32,7 +32,7 @@ Uporządkowany 8.11 (kopia: `D:\Projects\_stan\kopie\portfolio-STAN-20261108-*-p
 
 **Narzędzia:** idol3D (splat, tylko WWW), Blender (jest), kandydat na siatkę z teksturą: TRELLIS.2 fork StableProjectorz (repo i licencja do sprawdzenia przed propozycją instalacji), Brush (skan z wielu zdjęć). Hunyuan3D-2mv odpada z powodu RAM (licencja wykluczająca UE — użytkownik akceptuje na demo). TripoSR odłożony.
 
-## Przebudowa 2026-11-08 (gałąź `przebudowa` od `produkty3D`, NIC nie zacommitowane ani wypchnięte)
+## Przebudowa 2026-11-08 — OPUBLIKOWANA 8.11 (zgoda użytkownika: „jest dobrze publikuj”), commit 41e2388 na `main` (gałąź `przebudowa` = to samo)
 - Wzór układu: jsystems.pl/pakiet-AI, kierunek zatwierdzony przez użytkownika: grafit + morski akcent + jasne sekcje, złoto oszczędnie; wycena indywidualna (bez cen).
 - Menu: Usługi · Realizacje (podział: Aplikacje / Strony / 3D) · Jak pracuję · Kontakt. Bez liczników.
 - Tło CAŁEJ strony (decyzja użytkownika 8.11: na cały ekran, nieruchome przy przewijaniu, obraca się całe, realistyczne): `js/bg3d.js`, canvas `#bg3d` position:fixed. Scena three.js generowana w kodzie: płytka PCB (tekstury canvas: maska, ścieżki fan-out 45°, pady ENIG, przelotki, sitodruk), układ QFP „3EN4ALL” z nóżkami, elementy SMD, elektrolity, LED, światło PBR (RoomEnvironment) + cienie (bez cieni na telefonie), impulsy na ścieżkach; obrót ok. 3 min. Sekcje półprzezroczyste nad tłem (jasne .9, ciemne .62). Importmap ma `three/addons/`. Panel hero rgba .72 + blur. Kolaż prac z hero usunięty; `assets/hero/phishing.webp` zostaje w Realizacjach.
@@ -43,7 +43,7 @@ Uporządkowany 8.11 (kopia: `D:\Projects\_stan\kopie\portfolio-STAN-20261108-*-p
 - Pułapka podglądu: gdy panel przeglądarki jest ukryty, animacje i przejście opacity stoją — oglądać przy widocznym panelu. 5 etapów widocznych + 3 pytania w akordeonie.
 - Kontakt: e-mail `jacek.grodnicki@proton.me` (podany przez użytkownika 8.11) przez mailto, LinkedIn `jacek-grodnicki-0a68a7170` — LinkedIn do potwierdzenia przy przeglądzie. Formularz-atrapa usunięty.
 - Sprawdzone 8.11: desktop 1280 i telefon 375 (bez przewijania w bok).
-- Do decyzji: pasek kontaktowy na dole (po ocenie), commit i publikacja.
+- Do decyzji: pasek kontaktowy na dole (po ocenie). `STRATEGIA.md`, `.claude/`, `.gitignore`, `oferty/` celowo nie commitowane (publiczne repo).
 
 ## Do zrobienia (strona)
 1. Placeholdery: `[Imię Nazwisko]`, `[e-mail zawodowy]`, LinkedIn, CV (PDF), efekt BlokerDanych w liczbach.
