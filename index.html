@@ -4,97 +4,222 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>IT i automatyzacja — wsparcie zdalne</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%22150 65 155 137%22%3E%3Cpath fill=%22%233d7ff0%22 d=%22M212 69 154 169 203 155 223 82ZM243 69 231 117 286 172 301 168ZM286 196 251 161 176 180 171 198Z%22/%3E%3C/svg%3E">
+<title>Jacek Grodnicki — IT, automatyzacja, strony i 3D</title>
+<script>try{var t=localStorage.getItem("motyw");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <style>
-:root{--bg:#0f1115;--panel:#161a21;--line:#262c36;--text:#e6e8eb;--mute:#9aa3ae;--acc:#4fb3a9;--acc2:#e0b354}
-@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#f6f7f9;--panel:#fff;--line:#dfe3e8;--text:#14181e;--mute:#5b6570;--acc:#1f7f76;--acc2:#a8741a}}
+/* motyw: dół strony ciemny domyślnie, przełączany; menu, hero i "Jak pracuję" zawsze ciemne */
+:root{
+  --sec:rgba(9,20,48,.80);--sec-alt:rgba(11,26,62,.84);--panel:rgba(17,34,76,.9);--line:#2a3f6e;
+  --text:#e6eaf2;--mute:#9aa6bb;--acc:#3d7ff0;--acc-hi:#2f6fe0;--acc-ink:#82b1ff;--tag:rgba(255,255,255,.04);--ico:rgba(61,127,240,.16);
+  --d-bg:rgba(7,17,44,.62);--d-panel:rgba(15,30,68,.82);--d-line:#2a3f6e;--d-text:#e6eaf2;--d-mute:#9aa6bb;--d-acc:#82b1ff;
+  --gold:#c9a24a;color-scheme:dark
+}
+:root[data-theme="light"]{
+  --sec:rgba(242,245,250,.9);--sec-alt:rgba(230,236,246,.93);--panel:#fff;--line:#d7deea;
+  --text:#121a2a;--mute:#56627a;--acc-ink:#1f56c0;--tag:#fff;--ico:rgba(47,111,224,.1);color-scheme:light
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,"Segoe UI",Roboto,sans-serif}
-a{color:var(--acc)}
-.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
-nav{position:sticky;top:0;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);z-index:5}
-nav .wrap{display:flex;gap:20px;align-items:center;height:56px;overflow-x:auto}
-nav b{margin-right:auto;white-space:nowrap}
-nav a{color:var(--mute);text-decoration:none;font-size:14px;white-space:nowrap}
-nav a:hover{color:var(--text)}
-section{padding:72px 0;border-bottom:1px solid var(--line)}
-h1{font-size:clamp(32px,5vw,52px);line-height:1.1;margin:0 0 16px}
-h2{font-size:28px;margin:0 0 8px}
-.lead{color:var(--mute);font-size:19px;max-width:640px}
-.kick{color:var(--acc);font:600 13px/1 ui-monospace,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px}
-.btn{display:inline-block;padding:12px 20px;border-radius:6px;background:var(--acc);color:#fff;text-decoration:none;font-weight:600;margin:8px 8px 0 0}
-.btn.ghost{background:none;border:1px solid var(--line);color:var(--text)}
-.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));margin-top:32px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:24px}
-.card h3{margin:0 0 8px;font-size:19px}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{margin:0;background:#0d121b;color:var(--text);font:16px/1.6 system-ui,"Segoe UI",Roboto,sans-serif}
+#bg3d{position:fixed;inset:0;width:100vw;height:100vh;display:block;z-index:-1;opacity:0;transition:opacity 1.2s}
+#bg3d.on{opacity:1}
+img{max-width:100%}
+a{color:var(--acc-ink)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+section{padding:80px 0;background:var(--sec);transition:background .3s}
+.alt{background:var(--sec-alt)}
+.dark{background:var(--d-bg);color:var(--d-text);--text:var(--d-text);--mute:var(--d-mute);--acc-ink:var(--d-acc);--line:var(--d-line);--panel:var(--d-panel)}
+footer.dark{background:rgba(8,11,18,.92)}
+h1{font-size:clamp(34px,5.2vw,58px);line-height:1.06;margin:0 0 18px;letter-spacing:-.02em}
+h2{font-size:clamp(26px,3.4vw,36px);line-height:1.15;margin:0 0 10px;letter-spacing:-.01em}
+h3{margin:0 0 8px;font-size:19px;line-height:1.3}
+.lead{color:var(--mute);font-size:18px;max-width:660px;margin:0}
+.kick{color:var(--acc-ink);font:700 12.5px/1 ui-monospace,Consolas,monospace;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px}
+.btn{display:inline-block;padding:13px 22px;border-radius:8px;background:var(--acc);color:#fff!important;text-decoration:none;font-weight:600;border:0;font-size:15px;cursor:pointer}
+.btn:hover{background:var(--acc-hi)}
+.btn.ghost{background:none;border:1px solid var(--line);color:var(--text)!important}
+.btn.ghost:hover{border-color:var(--acc-ink)}
+.tag{display:inline-block;font:12px/1 ui-monospace,Consolas,monospace;border:1px solid var(--line);border-radius:4px;padding:5px 7px;margin:4px 4px 0 0;color:var(--mute);background:var(--tag)}
+.soon{font-size:13px;color:var(--gold)}
+
+/* menu */
+nav{position:sticky;top:0;z-index:10;background:rgba(9,13,21,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.07)}
+nav .wrap{display:flex;align-items:center;gap:6px;height:60px}
+.brand{margin-right:auto;color:var(--d-text);text-decoration:none;font-weight:700;letter-spacing:.01em;display:flex;align-items:center;gap:10px;white-space:nowrap}
+.brand svg{width:34px;height:31px;flex:none;filter:drop-shadow(0 1px 2px rgba(0,0,0,.6))}
+.brand small{font-weight:400;color:var(--d-mute);font-size:13px}
+nav .links{display:flex;align-items:center}
+nav .links a{color:var(--d-mute);text-decoration:none;font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:8px 10px;border-radius:6px;white-space:nowrap}
+nav .links a:hover{color:var(--d-text)}
+nav .links a.cta{color:#fff;background:var(--acc);margin-left:6px}
+nav .links a.cta:hover{background:var(--acc-hi)}
+.theme{margin-left:8px;width:36px;height:36px;border-radius:8px;border:1px solid rgba(255,255,255,.14);background:none;color:var(--d-mute);cursor:pointer;display:grid;place-items:center;padding:0;flex:none}
+.theme:hover{color:var(--d-text);border-color:rgba(255,255,255,.3)}
+.theme svg{width:18px;height:18px}
+.theme .sun{display:none}
+:root[data-theme="light"] .theme .sun{display:block}
+:root[data-theme="light"] .theme .moon{display:none}
+
+/* hero: szyba nad obracającą się płytą */
+.hero{position:relative;min-height:calc(100vh - 60px);display:flex;align-items:center;padding:56px 0;background:linear-gradient(90deg,rgba(9,13,21,.5),rgba(9,13,21,0) 60%)}
+.hero .wrap{position:relative;width:100%}
+.glass{position:relative;overflow:hidden;max-width:680px;padding:42px 40px 38px;border-radius:22px;
+  background:linear-gradient(135deg,rgba(255,255,255,.13),rgba(255,255,255,.04) 45%,rgba(110,150,255,.07)),rgba(10,15,26,.38);
+  backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);
+  border:1px solid rgba(255,255,255,.17);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.32),inset 1px 0 0 rgba(255,255,255,.08),inset 0 -1px 0 rgba(0,0,0,.35),0 40px 90px rgba(0,0,0,.5)}
+.glass::before{content:"";position:absolute;top:-60%;left:-60%;width:220%;height:220%;pointer-events:none;
+  background:linear-gradient(115deg,transparent 44%,rgba(255,255,255,.09) 48%,rgba(255,255,255,.02) 51%,transparent 54%);animation:sheen 11s ease-in-out infinite}
+.glass::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(120% 60% at 0% 0%,rgba(255,255,255,.10),transparent 60%)}
+.glass>*{position:relative;z-index:1}
+@keyframes sheen{0%,100%{transform:translateX(-18%)}50%{transform:translateX(18%)}}
+@media (prefers-reduced-motion:reduce){.glass::before{animation:none}}
+.hero .lead{margin-bottom:28px;color:#b8c3d6}
+.hero .btns{display:flex;flex-wrap:wrap;gap:12px}
+.hero .btn.ghost{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.04)}
+
+/* usługi */
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-top:36px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px}
 .card p{margin:0 0 8px;color:var(--mute)}
-.tag{display:inline-block;font:12px/1 ui-monospace,Consolas,monospace;border:1px solid var(--line);border-radius:4px;padding:5px 7px;margin:4px 4px 0 0;color:var(--mute)}
-.case{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:32px}
-.case dl{margin:0}.case dt{font-weight:600;margin-top:12px}.case dd{margin:2px 0 0;color:var(--mute)}
-.soon{font-size:13px;color:var(--acc2)}
-.gallery{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-top:32px}
-nav .wrap{scrollbar-width:none}
-.frame{margin:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel);cursor:zoom-in}
-.frame .bar{height:28px;display:flex;gap:6px;align-items:center;padding:0 10px;border-bottom:1px solid var(--line)}
+.ico{width:44px;height:44px;border-radius:10px;display:grid;place-items:center;background:var(--ico);color:var(--acc-ink);margin-bottom:16px}
+.ico svg{width:22px;height:22px}
+
+/* realizacje */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.chips a{text-decoration:none;font-weight:600;font-size:14px;border:1px solid var(--line);background:var(--panel);color:var(--text);padding:8px 14px;border-radius:999px}
+.chips a:hover{border-color:var(--acc);color:var(--acc-ink)}
+.sub{margin-top:56px;padding-top:8px}
+.sub>h3{font-size:22px;display:flex;align-items:baseline;gap:12px}
+.sub>h3 span{font:600 12px/1 ui-monospace,Consolas,monospace;color:var(--acc-ink);letter-spacing:.1em;text-transform:uppercase}
+.sub>p{color:var(--mute);margin:0;max-width:680px}
+.case{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:20px;align-items:start}
+.case dl{margin:0}.case dt{font-weight:600;margin-top:12px}.case dt:first-child{margin-top:0}.case dd{margin:2px 0 0;color:var(--mute)}
+.shot{display:block;width:100%;border-radius:8px;border:1px solid var(--line);margin-top:4px}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ba .card{padding:16px}
+.ba .card:first-child{border-color:rgba(201,162,74,.5)}
+.ba .card:last-child{border-color:rgba(61,127,240,.55)}
+.gallery{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-top:20px}
+.frame{margin:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel);cursor:zoom-in;transition:transform .15s,box-shadow .15s}
+.frame:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,0,0,.18)}
+.frame .bar{height:26px;display:flex;gap:6px;align-items:center;padding:0 10px;border-bottom:1px solid var(--line)}
 .frame .bar i{width:9px;height:9px;border-radius:50%;background:var(--line)}
 .frame img{display:block;width:100%;height:auto;aspect-ratio:1280/800;object-fit:cover}
 .frame figcaption{padding:12px 14px;font-size:14px;color:var(--mute)}
 .frame figcaption b{color:var(--text)}
-.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:32px;counter-reset:s}
-.flow div{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;counter-increment:s}
-.flow div::before{content:"0" counter(s);display:block;font:700 24px ui-monospace,Consolas,monospace;color:var(--acc);margin-bottom:6px}
-.ba{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
-.ba .card:first-child{border-color:color-mix(in srgb,var(--acc2) 50%,var(--line))}
-.ba .card:last-child{border-color:color-mix(in srgb,var(--acc) 50%,var(--line))}
-form{display:grid;gap:12px;max-width:520px;margin-top:24px}
-input,textarea{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px;color:var(--text);font:inherit}
-label{font-size:14px;color:var(--mute)}
-footer{padding:32px 0;color:var(--mute);font-size:14px}
+.v3d{position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;aspect-ratio:16/9;background:#d9dce0 url(assets/3d/poster.jpg) center/cover;touch-action:none}
+.v3d canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.v3d .btn{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);box-shadow:0 4px 16px rgba(0,0,0,.25)}
+.v3d.is-live{background:#d9dce0}.v3d.is-live .btn{display:none}
+#demo3d-view{margin-top:20px}
+.prod{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0 0}
+.prod>img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border:1px solid var(--line);border-radius:10px}
+.prod .v3d{aspect-ratio:4/3;background:#d9dce0}
+.prod .v3d.is-live{background:#e9ebee}
+.prod figcaption{grid-column:1/-1;color:var(--mute)}
+.prod figcaption b{color:var(--text);font-size:18px;display:block}
+
+/* jak pracuję */
+.steps{list-style:none;padding:0;margin:36px 0 0;display:grid;grid-template-columns:repeat(5,1fr);gap:12px;counter-reset:s}
+.steps li{background:var(--d-panel);border:1px solid var(--d-line);border-radius:12px;padding:20px;counter-increment:s;position:relative;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.steps li::before{content:"0" counter(s);display:block;font:700 22px ui-monospace,Consolas,monospace;color:var(--d-acc);margin-bottom:8px}
+.steps b{display:block;margin-bottom:4px}
+.steps p{margin:0;color:var(--d-mute);font-size:15px}
+.faq{margin-top:40px;max-width:760px}
+.faq details{border-top:1px solid var(--d-line);padding:14px 0}
+.faq details:last-child{border-bottom:1px solid var(--d-line)}
+.faq summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:16px}
+.faq summary::after{content:"+";color:var(--d-acc);font-size:20px;line-height:1}
+.faq details[open] summary::after{content:"–"}
+.faq p{margin:10px 0 0;color:var(--d-mute)}
+.stack{margin-top:32px;color:var(--d-mute);font-size:15px}
+
+/* kontakt */
+.contact{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}
+.contact .box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:28px}
+.contact .mail{font-size:clamp(18px,2.4vw,22px);font-weight:700;word-break:break-all;color:var(--text);text-decoration:none}
+.contact .mail:hover{color:var(--acc-ink)}
+.contact ul{margin:16px 0 0;padding-left:20px;color:var(--mute)}
+footer{padding:28px 0;color:var(--d-mute);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+
 dialog{border:0;padding:0;background:none;max-width:95vw}
 dialog iframe{width:min(1280px,92vw);height:85vh;border:0;border-radius:10px;background:#fff}
 dialog::backdrop{background:rgba(0,0,0,.75)}
-.v3d{position:relative;margin-top:32px;border:1px solid var(--line);border-radius:10px;overflow:hidden;aspect-ratio:16/9;background:#d9dce0 url(assets/3d/poster.jpg) center/cover;touch-action:none}
-.v3d canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
-.v3d .btn{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);margin:0;border:0;font:inherit;font-weight:600;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.25)}
-.v3d.is-live{background:#d9dce0}.v3d.is-live .btn{display:none}
-.prod{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px}
-.prod>img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border:1px solid var(--line);border-radius:10px}
-.prod .v3d{margin-top:0;aspect-ratio:4/3;background:#d9dce0}
-.prod .v3d.is-live{background:#e9ebee}
-.prod figcaption{grid-column:1/-1;color:var(--mute)}
-.prod figcaption b{color:var(--text);font-size:19px;display:block}
-@media (max-width:720px){.case,.ba,.prod{grid-template-columns:1fr}section{padding:48px 0}.v3d{aspect-ratio:4/3}}
+
+@media (max-width:960px){.steps{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}}
+@media (max-width:820px){
+  .case,.contact{grid-template-columns:1fr}
+  .hero{min-height:0;padding:150px 0 56px;background:none}
+  .glass{padding:26px 22px}
+  section{padding:56px 0}
+}
+@media (max-width:640px){
+  .brand small,.brand span{display:none}
+  nav .wrap{gap:0}
+  nav .links a{padding:8px 6px;font-size:12px;letter-spacing:.02em}
+  nav .links a.cta{margin-left:2px}
+  .theme{margin-left:4px;width:32px;height:32px}
+  .prod,.ba{grid-template-columns:1fr}
+  .v3d{aspect-ratio:4/3}
+  .gallery{grid-template-columns:1fr}
+}
+@media (max-width:380px){nav .links a{padding:8px 4px;font-size:11.5px}.brand svg{width:28px;height:26px}}
 </style>
 </head>
 <body>
 <nav><div class="wrap">
-<b>IT · automatyzacja · strony</b>
-<a href="#uslugi">Usługi</a><a href="#projekty">Projekty</a><a href="#demo3d">3D</a><a href="#produkty">Produkty 3D</a><a href="#strony">Strony</a><a href="#proces">Współpraca</a>
+<a class="brand" href="#"><svg viewBox="150 65 155 137" role="img" aria-label="3EN4ALL"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="#b9c2d0"/><stop offset="1" stop-color="#6f7b8f"/></linearGradient></defs><path fill="url(#lg)" d="M212 69 154 169 203 155 223 82ZM243 69 231 117 286 172 301 168ZM286 196 251 161 176 180 171 198Z"/></svg><span>Jacek Grodnicki</span><small>IT · automatyzacja · 3D</small></a>
+<div class="links"><a href="#uslugi">Usługi</a><a href="#realizacje">Realizacje</a><a href="#jak-pracuje">Jak pracuję</a><a class="cta" href="#kontakt">Kontakt</a><button class="theme" type="button" aria-label="Zmień kolory: jasne / ciemne" title="Jasne / ciemne"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button></div>
 </div></nav>
 
-<header><section><div class="wrap">
-<div class="kick">Zdalnie · IT · Automatyzacja · Lokalne AI</div>
+<canvas id="bg3d" aria-hidden="true"></canvas>
+<header class="hero dark"><div class="wrap">
+<div class="glass">
+<div class="kick">Zdalnie · IT · Automatyzacja · Strony · 3D</div>
 <h1>Utrzymuję IT małych firm i automatyzuję to, co zjada wam czas.</h1>
-<p class="lead">Administracja i wsparcie zdalne, bezpieczeństwo poczty, automatyzacja procesów oraz sztuczna inteligencja uruchamiana na waszym sprzęcie — dane nie wychodzą z firmy.</p>
-<a class="btn" href="#projekty">Zobacz projekty</a><a class="btn ghost" href="#strony">Projekty stron</a>
-</div></section></header>
+<p class="lead">Administracja i bezpieczeństwo, automatyzacja procesów i lokalne AI, a do tego strony i interaktywne prezentacje produktów. Jedna osoba do kontaktu, praca zdalna.</p>
+<div class="btns"><a class="btn" href="#realizacje">Zobacz realizacje</a><a class="btn ghost" href="#kontakt">Opisz zlecenie</a></div>
+</div>
+</div></header>
 
 <section id="uslugi"><div class="wrap">
 <div class="kick">Usługi</div>
-<h2>Dwa obszary, jedna osoba do kontaktu</h2>
+<h2>Czym mogę się zająć</h2>
+<p class="lead">Od codziennego utrzymania komputerów po narzędzia, które robią powtarzalną pracę za was.</p>
 <div class="grid">
-<div class="card"><h3>Administracja i wsparcie IT</h3><p>Komputery, sieć, kopie zapasowe, konta Microsoft 365 / Google. Pomoc zdalna, gdy coś przestaje działać.</p><span class="tag">Windows</span><span class="tag">sieć</span><span class="tag">backup</span></div>
-<div class="card"><h3>Bezpieczeństwo poczty i danych</h3><p>Sprawdzenie SPF/DKIM/DMARC, analiza podejrzanych wiadomości, anonimizacja dokumentów przed wysłaniem.</p><span class="tag">NIS2</span><span class="tag">RODO</span><span class="tag">phishing</span></div>
-<div class="card"><h3>Automatyzacja procesów</h3><p>Powtarzalne czynności — raporty, publikacje, przetwarzanie plików — zamienione w skrypty i kolejki, które działają same.</p><span class="tag">Python</span><span class="tag">PowerShell</span><span class="tag">n8n</span></div>
-<div class="card"><h3>Lokalne AI w firmie</h3><p>Modele językowe i rozpoznawanie mowy na waszym komputerze. Bez abonamentu w chmurze i bez wysyłania dokumentów na zewnątrz.</p><span class="tag">Ollama</span><span class="tag">ASR/TTS</span><span class="tag">offline</span></div>
+<div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></div><h3>Administracja i wsparcie IT</h3><p>Komputery, sieć, kopie zapasowe, konta Microsoft 365 / Google. Pomoc zdalna, gdy coś przestaje działać.</p><span class="tag">Windows</span><span class="tag">sieć</span><span class="tag">backup</span></div>
+<div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div><h3>Bezpieczeństwo poczty i danych</h3><p>Sprawdzenie SPF/DKIM/DMARC, analiza podejrzanych wiadomości, anonimizacja dokumentów przed wysłaniem.</p><span class="tag">NIS2</span><span class="tag">RODO</span><span class="tag">phishing</span></div>
+<div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M4 12h16M4 18h7"/><circle cx="18" cy="6" r="2"/><circle cx="15" cy="18" r="2"/></svg></div><h3>Automatyzacja procesów</h3><p>Raporty, publikacje, przetwarzanie plików — zamienione w skrypty i kolejki, które działają same.</p><span class="tag">Python</span><span class="tag">PowerShell</span><span class="tag">n8n</span></div>
+<div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg></div><h3>Lokalne AI w firmie</h3><p>Modele językowe i rozpoznawanie mowy na waszym komputerze. Bez wysyłania dokumentów na zewnątrz.</p><span class="tag">Ollama</span><span class="tag">ASR/TTS</span><span class="tag">offline</span></div>
+<div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></svg></div><h3>Strony firmowe</h3><p>Proste, szybkie strony jednostronicowe: oferta, kontakt, mapa. Dopasowane do telefonu.</p><span class="tag">one page</span><span class="tag">responsywne</span></div>
+<div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 22V12M21 7l-9 5-9-5"/></svg></div><h3>Wizualizacje produktów 3D</h3><p>Model produktu, który klient obraca w przeglądarce — na stronę, do sklepu, do kampanii.</p><span class="tag">WebGL</span><span class="tag">GLB</span></div>
 </div>
 </div></section>
 
-<section id="projekty"><div class="wrap">
-<div class="kick">Projekty</div>
-<h2>Własne produkty</h2>
+<section id="realizacje" class="alt"><div class="wrap">
+<div class="kick">Realizacje</div>
+<h2>Co już zbudowałem</h2>
+<p class="lead">Własne aplikacje, koncepcje stron i modele 3D. Koncepcje i opakowania to projekty demonstracyjne, nie zlecenia klientów.</p>
+<div class="chips"><a href="#r-aplikacje">Aplikacje</a><a href="#r-strony">Strony</a><a href="#r-3d">3D</a></div>
+
+<div class="sub" id="r-aplikacje">
+<h3>Aplikacje <span>własne produkty</span></h3>
 
 <div class="case card">
+<div><h3>PhishingInspector</h3>
+<p>Analiza podejrzanej wiadomości e-mail: nagłówki, SPF/DKIM, ścieżka serwerów, linki i załączniki — z wynikiem zrozumiałym dla nie-informatyka.</p>
+<img class="shot" src="assets/hero/phishing.webp" alt="PhishingInspector: wynik analizy wiadomości oznaczonej jako niebezpieczna" loading="lazy" width="900" height="506">
+<p style="margin-top:12px"><span class="tag">Python</span><span class="tag">analiza nagłówków</span><span class="tag">open source</span></p></div>
+<div><dl><dt>Problem</dt><dd>Pracownik nie odróżni fałszywej faktury od prawdziwej, a jedno kliknięcie wystarczy.</dd>
+<dt>Rozwiązanie</dt><dd>Przeciągasz wiadomość, dostajesz ocenę ryzyka i wyjaśnienie każdego sygnału.</dd>
+<dt>Dla kogo</dt><dd>Biura rachunkowe, serwisy IT, małe firmy objęte NIS2.</dd></dl>
+<p style="margin-top:20px"><a class="btn" href="https://github.com/3en4all/PhishingInspector">Kod na GitHubie</a> <span class="soon">Microsoft Store — wkrótce</span></p></div>
+</div>
+
+<div class="case card" style="margin-top:16px">
 <div><h3>BlokerDanych</h3>
 <p>Aplikacja Windows, która offline zaczernia dane osobowe w plikach PDF — PESEL, adresy, numery kont — zanim dokument trafi dalej.</p>
 <span class="tag">Python</span><span class="tag">PySide6</span><span class="tag">OCR</span><span class="tag">MSIX</span><span class="tag">271 testów</span>
@@ -104,47 +229,17 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
 </div>
 
 <div class="case card" style="margin-top:16px">
-<div><h3>PhishingInspector</h3>
-<p>Analiza podejrzanej wiadomości e-mail: nagłówki, SPF/DKIM, ścieżka serwerów, linki i załączniki — z wynikiem zrozumiałym dla nie-informatyka.</p>
-<span class="tag">Python</span><span class="tag">analiza nagłówków</span><span class="tag">Supabase</span><span class="tag">open source</span>
-<p style="margin-top:16px"><a class="btn" href="https://github.com/3en4all/PhishingInspector">GitHub</a> <span class="soon">Microsoft Store — wkrótce</span></p></div>
-<dl><dt>Problem</dt><dd>Pracownik nie odróżni fałszywej faktury od prawdziwej, a jedno kliknięcie wystarczy.</dd>
-<dt>Rozwiązanie</dt><dd>Przeciągasz wiadomość, dostajesz ocenę ryzyka i wyjaśnienie każdego sygnału.</dd>
-<dt>Dla kogo</dt><dd>Biura rachunkowe, serwisy IT, małe firmy objęte NIS2.</dd></dl>
-</div>
-
-<div class="case card" style="margin-top:16px">
 <div><h3>Automatyczna produkcja treści</h3>
 <p>System, który z planu tworzy film: tekst, lektor, kontrola jakości mowy, montaż i wgranie na kilka kanałów jednocześnie.</p>
 <span class="tag">lokalne LLM</span><span class="tag">TTS</span><span class="tag">ASR QC</span><span class="tag">FFmpeg</span><span class="tag">API</span></div>
 <div class="ba"><div class="card"><h3>Przed</h3><p>Każdy film ręcznie: nagranie, montaż, wgranie, opis na każdy kanał osobno.</p></div>
 <div class="card"><h3>Po</h3><p>Kolejka robi wszystko sama; człowiek zatwierdza tylko tekst i gotowy film.</p></div></div>
 </div>
-</div></section>
+</div>
 
-<section id="demo3d"><div class="wrap">
-<div class="kick">Demo · 3D z jednego obrazu</div>
-<h2>Obraz zamieniony w model 3D</h2>
-<p class="lead">Szafy serwerowe i karta graficzna powstały z dwóch pojedynczych grafik. Model wygenerował lokalny model AI na zwykłej karcie graficznej, ok. 2 minuty na obiekt, bez chmury. Przeciągnij, żeby obrócić; kółko przybliża.</p>
-<div class="v3d" id="demo3d-view"><button class="btn" id="demo3d-start" type="button">Uruchom podgląd 3D (ok. 10 MB)</button></div>
-<p style="margin-top:12px"><span class="tag">Gaussian splatting</span><span class="tag">lokalne GPU</span><span class="tag">WebGL</span><span class="tag">podgląd produktu</span></p>
-</div></section>
-
-<section id="produkty"><div class="wrap">
-<div class="kick">Wizualizacje produktów 3D</div>
-<h2>Produkt, który klient może obrócić</h2>
-<p class="lead">Interaktywne prezentacje opakowań na stronę, do sklepu internetowego i kampanii. Klient obraca produkt w przeglądarce, bez instalowania czegokolwiek. Pracuję na zdjęciach produktu, plikach produkcyjnych opakowania albo na przesłanym egzemplarzu.</p>
-<figure class="prod"><img src="assets/produkty/butelka.jpg" alt="Butelka szamponu 3EN4ALL — zdjęcie" loading="lazy" width="960" height="524"><div class="v3d" data-splat="assets/3d/opakowania/butelka.splat" data-yaw="1.59" data-pitch="0.1"><button class="btn" type="button">Obejrzyj w 3D (8 MB)</button></div><figcaption><b>Linia kosmetyków</b>Butelka szamponu: prezentacja produktu na stronę sklepu.</figcaption></figure>
-<figure class="prod"><img src="assets/produkty/pudelko.jpg" alt="Pudełko z pieczęcią 3EN4ALL — zdjęcie" loading="lazy" width="960" height="524"><div class="v3d" data-splat="assets/3d/opakowania/pudelko.splat" data-yaw="0.77" data-pitch="0.35"><button class="btn" type="button">Obejrzyj w 3D (8 MB)</button></div><figcaption><b>Opakowanie premium</b>Pudełko z lakową pieczęcią: wizualizacja na premierę produktu.</figcaption></figure>
-<figure class="prod"><img src="assets/produkty/saszetka.jpg" alt="Saszetka 3EN4ALL — zdjęcie" loading="lazy" width="960" height="719"><div class="v3d" data-splat="assets/3d/opakowania/saszetka.splat" data-yaw="1.32" data-pitch="0.2"><button class="btn" type="button">Obejrzyj w 3D (8 MB)</button></div><figcaption><b>Opakowanie miękkie</b>Saszetka z fałdami: wizualizacja do kampanii i social mediów.</figcaption></figure>
-<p style="margin-top:24px">Chcesz tak pokazać swój produkt? Napisz, a wycenę przygotuję po obejrzeniu materiałów. Inne formy współpracy i niestandardowe zakresy — po indywidualnym uzgodnieniu.</p>
-<p><span class="tag">projekty demonstracyjne</span><span class="tag">marka własna 3EN4ALL</span><span class="tag">WebGL</span></p>
-</div></section>
-
-<section id="strony"><div class="wrap">
-<div class="kick">Projekty stron</div>
-<h2>Koncepcje graficzne</h2>
-<p class="lead">Przykładowe projekty dla fikcyjnych firm. Kliknij, żeby powiększyć.</p>
+<div class="sub" id="r-strony">
+<h3>Strony <span>koncepcje graficzne</span></h3>
+<p>Przykładowe projekty dla fikcyjnych firm. Kliknij, żeby otworzyć działającą stronę.</p>
 <div class="gallery">
 <figure class="frame" data-src="koncepcje/kancelaria.html"><div class="bar"><i></i><i></i><i></i></div><img src="koncepcje/img/kancelaria.png" alt="Koncepcja strony: Kancelaria" loading="lazy" width="1280" height="800"><figcaption><b>Kancelaria prawna</b> · stonowana, zaufanie, typografia szeryfowa</figcaption></figure>
 <figure class="frame" data-src="koncepcje/serwis.html"><div class="bar"><i></i><i></i><i></i></div><img src="koncepcje/img/serwis.png" alt="Koncepcja strony: Serwis IT" loading="lazy" width="1280" height="800"><figcaption><b>Serwis komputerowy</b> · cennik, szybki kontakt, status zgłoszenia</figcaption></figure>
@@ -152,30 +247,63 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
 <figure class="frame" data-src="koncepcje/eventy.html"><div class="bar"><i></i><i></i><i></i></div><img src="koncepcje/img/eventy.png" alt="Koncepcja strony: Dekoracje eventowe" loading="lazy" width="1280" height="800"><figcaption><b>Dekoracje i eventy</b> · duże zdjęcia, formularz z datą i liczbą gości</figcaption></figure>
 <figure class="frame" data-src="koncepcje/remonty.html"><div class="bar"><i></i><i></i><i></i></div><img src="koncepcje/img/remonty.png" alt="Koncepcja strony: Firma remontowa" loading="lazy" width="1280" height="800"><figcaption><b>Firma remontowa</b> · telefon na wierzchu, przed/po, liczby</figcaption></figure>
 </div>
-</div></section>
-
-<section id="proces"><div class="wrap">
-<div class="kick">Współpraca</div>
-<h2>Jak pracujemy</h2>
-<div class="flow">
-<div><b>Rozmowa</b><p>30 minut online: co boli i co ma działać.</p></div>
-<div><b>Wycena</b><p>Konkretny zakres i cena, bez niespodzianek.</p></div>
-<div><b>Wdrożenie</b><p>Zdalnie, z dokumentacją tego, co zrobione.</p></div>
-<div><b>Wsparcie</b><p>Abonament albo pomoc na zgłoszenie.</p></div>
 </div>
-<p class="lead" style="margin-top:32px">Stos: Python, PowerShell, Windows / MSIX, Ollama, Supabase, n8n, Git, FFmpeg.</p>
+
+<div class="sub" id="r-3d">
+<h3>3D <span>wizualizacje</span></h3>
+<p>Interaktywne prezentacje opakowań na stronę, do sklepu i kampanii. Klient obraca produkt w przeglądarce, bez instalowania czegokolwiek. Pracuję na zdjęciach produktu, plikach produkcyjnych opakowania albo na przesłanym egzemplarzu. Przeciągnij, żeby obrócić; kółko przybliża.</p>
+<figure class="prod"><img src="assets/produkty/butelka.jpg" alt="Zielona butelka z czystą etykietą — zdjęcie" loading="lazy" width="960" height="524"><div class="v3d" data-splat="assets/3d/opakowania/butelka.splat" data-yaw="1.59" data-pitch="0.1"><button class="btn" type="button">Obejrzyj w 3D (8 MB)</button></div><figcaption><b>Linia kosmetyków</b>Butelka szamponu: prezentacja produktu na stronę sklepu.</figcaption></figure>
+<figure class="prod"><img src="assets/produkty/pudelko.jpg" alt="Zielone pudełko z wieczkiem — zdjęcie" loading="lazy" width="960" height="524"><div class="v3d" data-splat="assets/3d/opakowania/pudelko.splat" data-yaw="0.77" data-pitch="0.35"><button class="btn" type="button">Obejrzyj w 3D (8 MB)</button></div><figcaption><b>Opakowanie premium</b>Pudełko z wieczkiem: wizualizacja na premierę produktu.</figcaption></figure>
+<figure class="prod"><img src="assets/produkty/saszetka.jpg" alt="Zielona saszetka — zdjęcie" loading="lazy" width="960" height="719"><div class="v3d" data-splat="assets/3d/opakowania/saszetka.splat" data-yaw="1.32" data-pitch="0.2"><button class="btn" type="button">Obejrzyj w 3D (8 MB)</button></div><figcaption><b>Opakowanie miękkie</b>Saszetka z fałdami: wizualizacja do kampanii i social mediów.</figcaption></figure>
+<h3 style="margin-top:40px">Scena z jednego obrazu</h3>
+<p style="color:var(--mute);margin:0">Szafy serwerowe i karta graficzna powstały z dwóch pojedynczych grafik, wygenerowane lokalnie na zwykłej karcie graficznej, bez chmury.</p>
+<div class="v3d" id="demo3d-view"><button class="btn" id="demo3d-start" type="button">Uruchom podgląd 3D (ok. 10 MB)</button></div>
+</div>
 </div></section>
 
-<footer><div class="wrap">© 2026</div></footer>
+<section id="jak-pracuje" class="dark"><div class="wrap">
+<div class="kick">Jak pracuję</div>
+<h2>Od rozmowy do działającego rozwiązania</h2>
+<ol class="steps">
+<li><b>Rozmowa</b><p>Krótko online: co nie działa i co ma działać.</p></li>
+<li><b>Wycena</b><p>Konkretny zakres i cena, zanim cokolwiek zacznę.</p></li>
+<li><b>Realizacja</b><p>Zdalnie, z podglądem postępów.</p></li>
+<li><b>Poprawki</b><p>Uwagi wprowadzam w ustalonym zakresie.</p></li>
+<li><b>Przekazanie</b><p>Pliki, dostępy i opis tego, co zrobione. Potem wsparcie, jeśli potrzebne.</p></li>
+</ol>
+<div class="faq">
+<details><summary>Czy pracujesz tylko zdalnie?</summary><p>Tak. Administrację, wdrożenia i poprawki robię przez zdalny dostęp, po wcześniejszym ustaleniu godzin.</p></details>
+<details><summary>Jak wyceniasz zlecenie?</summary><p>Indywidualnie, po rozmowie albo obejrzeniu materiałów. Dostajesz zakres i cenę przed rozpoczęciem pracy.</p></details>
+<details><summary>Co dzieje się z danymi firmy?</summary><p>Tam, gdzie to możliwe, korzystam z narzędzi działających lokalnie, na waszym sprzęcie. Dokumenty nie trafiają do zewnętrznych usług bez waszej zgody.</p></details>
+</div>
+<p class="stack">Narzędzia: Python, PowerShell, Windows / MSIX, Ollama, Supabase, n8n, Git, FFmpeg, Blender, WebGL.</p>
+</div></section>
+
+<section id="kontakt"><div class="wrap contact">
+<div>
+<div class="kick">Kontakt</div>
+<h2>Opisz, co ma działać</h2>
+<p class="lead">Napisz kilka zdań o problemie albo pomyśle. Odpowiem z pytaniami albo propozycją zakresu.</p>
+</div>
+<div class="box">
+<a class="mail" href="mailto:jacek.grodnicki@proton.me?subject=Zlecenie%20%E2%80%94%20opis">jacek.grodnicki@proton.me</a>
+<ul><li>czego dotyczy zlecenie,</li><li>na kiedy jest potrzebne,</li><li>co już masz (pliki, dostęp, materiały).</li></ul>
+<p style="margin:20px 0 0;display:flex;flex-wrap:wrap;gap:10px"><a class="btn" href="mailto:jacek.grodnicki@proton.me?subject=Zlecenie%20%E2%80%94%20opis">Napisz e-mail</a><a class="btn ghost" href="https://www.linkedin.com/in/jacek-grodnicki-0a68a7170/">LinkedIn</a></p>
+</div>
+</div></section>
+
+<footer class="dark"><div class="wrap"><span>© 2026 Jacek Grodnicki</span><span>IT · automatyzacja · strony · 3D</span></div></footer>
 
 <dialog id="d"><iframe title="Podgląd koncepcji"></iframe></dialog>
 <script>
 const d=document.getElementById('d');
 document.querySelectorAll('.frame').forEach(f=>f.onclick=()=>{d.querySelector('iframe').src=f.dataset.src;d.showModal()});
 d.onclick=()=>d.close();
+document.querySelector('.theme').onclick=()=>{const r=document.documentElement,n=r.dataset.theme==='light'?'dark':'light';r.dataset.theme=n;try{localStorage.setItem('motyw',n)}catch(e){}};
 </script>
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","@mkkellogg/gaussian-splats-3d":"https://cdn.jsdelivr.net/npm/@mkkellogg/gaussian-splats-3d@0.4.6/build/gaussian-splats-3d.module.js"}}</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/","@mkkellogg/gaussian-splats-3d":"https://cdn.jsdelivr.net/npm/@mkkellogg/gaussian-splats-3d@0.4.6/build/gaussian-splats-3d.module.js"}}</script>
+<script type="module" src="js/bg3d.js?v=6"></script>
 <script type="module" src="js/demo3d.js?v=2"></script>
-<script type="module" src="js/produkty3d.js?v=3"></script>
+<script type="module" src="js/produkty3d.js?v=4"></script>
 </body>
 </html>
