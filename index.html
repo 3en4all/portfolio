@@ -4,24 +4,24 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%22150 65 155 137%22%3E%3Cpath fill=%22%233d7ff0%22 d=%22M212 69 154 169 203 155 223 82ZM243 69 231 117 286 172 301 168ZM286 196 251 161 176 180 171 198Z%22/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%22150 65 155 137%22%3E%3Cpath fill=%22%23e10600%22 d=%22M212 69 154 169 203 155 223 82ZM243 69 231 117 286 172 301 168ZM286 196 251 161 176 180 171 198Z%22/%3E%3C/svg%3E">
 <title>Jacek Grodnicki — IT, automatyzacja, strony i 3D</title>
 <script>try{var t=localStorage.getItem("motyw");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <style>
 /* motyw: dół strony ciemny domyślnie, przełączany; menu, hero i "Jak pracuję" zawsze ciemne */
 :root{
-  --sec:rgba(9,20,48,.80);--sec-alt:rgba(11,26,62,.84);--panel:rgba(17,34,76,.9);--line:#2a3f6e;
-  --text:#e6eaf2;--mute:#9aa6bb;--acc:#3d7ff0;--acc-hi:#2f6fe0;--acc-ink:#82b1ff;--tag:rgba(255,255,255,.04);--ico:rgba(61,127,240,.16);
-  --d-bg:rgba(7,17,44,.62);--d-panel:rgba(15,30,68,.82);--d-line:#2a3f6e;--d-text:#e6eaf2;--d-mute:#9aa6bb;--d-acc:#82b1ff;
-  --gold:#c9a24a;color-scheme:dark
+  --sec:rgba(8,8,8,.8);--sec-alt:rgba(21,8,8,.84);--panel:rgba(25,25,25,.9);--line:#490706;
+  --text:#fff;--mute:#a1a1a1;--acc:#e10600;--acc-hi:#bf0500;--on-acc:#fff;--acc-ink:#ec5d59;--tag:rgba(255,255,255,.04);--ico:rgba(225,6,0,.18);
+  --d-bg:rgba(7,7,7,.62);--d-panel:rgba(23,23,23,.84);--d-line:#490706;--d-text:#fff;--d-mute:#a1a1a1;--d-acc:#ec5d59;
+  --gold:#a3a3a3;color-scheme:dark
 }
 :root[data-theme="light"]{
-  --sec:rgba(242,245,250,.9);--sec-alt:rgba(230,236,246,.93);--panel:#fff;--line:#d7deea;
-  --text:#121a2a;--mute:#56627a;--acc-ink:#1f56c0;--tag:#fff;--ico:rgba(47,111,224,.1);color-scheme:light
+  --sec:rgba(245,245,245,.92);--sec-alt:rgba(244,231,230,.94);--panel:#fff;--line:#d5d5d5;
+  --text:#111;--mute:#686868;--acc-ink:#cb0500;--tag:#fff;--ico:rgba(225,6,0,.12);color-scheme:light
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:64px}
-body{margin:0;background:#0d121b;color:var(--text);font:16px/1.6 system-ui,"Segoe UI",Roboto,sans-serif}
+body{margin:0;background:#060606;color:var(--text);font:16px/1.6 system-ui,"Segoe UI",Roboto,sans-serif}
 #bg3d{position:fixed;inset:0;width:100vw;height:100vh;display:block;z-index:-1;opacity:0;transition:opacity 1.2s}
 #bg3d.on{opacity:1}
 img{max-width:100%}
@@ -36,7 +36,7 @@ h2{font-size:clamp(26px,3.4vw,36px);line-height:1.15;margin:0 0 10px;letter-spac
 h3{margin:0 0 8px;font-size:19px;line-height:1.3}
 .lead{color:var(--mute);font-size:18px;max-width:660px;margin:0}
 .kick{color:var(--acc-ink);font:700 12.5px/1 ui-monospace,Consolas,monospace;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px}
-.btn{display:inline-block;padding:13px 22px;border-radius:8px;background:var(--acc);color:#fff!important;text-decoration:none;font-weight:600;border:0;font-size:15px;cursor:pointer}
+.btn{display:inline-block;padding:13px 22px;border-radius:8px;background:var(--acc);color:var(--on-acc,#fff)!important;text-decoration:none;font-weight:600;border:0;font-size:15px;cursor:pointer}
 .btn:hover{background:var(--acc-hi)}
 .btn.ghost{background:none;border:1px solid var(--line);color:var(--text)!important}
 .btn.ghost:hover{border-color:var(--acc-ink)}
@@ -52,7 +52,7 @@ nav .wrap{display:flex;align-items:center;gap:6px;height:60px}
 nav .links{display:flex;align-items:center}
 nav .links a{color:var(--d-mute);text-decoration:none;font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:8px 10px;border-radius:6px;white-space:nowrap}
 nav .links a:hover{color:var(--d-text)}
-nav .links a.cta{color:#fff;background:var(--acc);margin-left:6px}
+nav .links a.cta{color:var(--on-acc,#fff);background:var(--acc);margin-left:6px}
 nav .links a.cta:hover{background:var(--acc-hi)}
 .theme{margin-left:8px;width:36px;height:36px;border-radius:8px;border:1px solid rgba(255,255,255,.14);background:none;color:var(--d-mute);cursor:pointer;display:grid;place-items:center;padding:0;flex:none}
 .theme:hover{color:var(--d-text);border-color:rgba(255,255,255,.3)}
@@ -65,7 +65,7 @@ nav .links a.cta:hover{background:var(--acc-hi)}
 .hero{position:relative;min-height:calc(100vh - 60px);display:flex;align-items:center;padding:56px 0;background:linear-gradient(90deg,rgba(9,13,21,.5),rgba(9,13,21,0) 60%)}
 .hero .wrap{position:relative;width:100%}
 .glass{position:relative;overflow:hidden;max-width:680px;padding:42px 40px 38px;border-radius:22px;
-  background:linear-gradient(135deg,rgba(255,255,255,.13),rgba(255,255,255,.04) 45%,rgba(110,150,255,.07)),rgba(10,15,26,.38);
+  background:linear-gradient(135deg,rgba(255,255,255,.13),rgba(255,255,255,.04) 45%,rgba(225,6,0,.06)),rgba(10,10,10,.38);
   backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);
   border:1px solid rgba(255,255,255,.17);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.32),inset 1px 0 0 rgba(255,255,255,.08),inset 0 -1px 0 rgba(0,0,0,.35),0 40px 90px rgba(0,0,0,.5)}
@@ -96,11 +96,11 @@ nav .links a.cta:hover{background:var(--acc-hi)}
 .sub>p{color:var(--mute);margin:0;max-width:680px}
 .case{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:20px;align-items:start}
 .case dl{margin:0}.case dt{font-weight:600;margin-top:12px}.case dt:first-child{margin-top:0}.case dd{margin:2px 0 0;color:var(--mute)}
-.shot{display:block;width:100%;border-radius:8px;border:1px solid var(--line);margin-top:4px}
+.shot{display:block;width:100%;height:auto;border-radius:8px;border:1px solid var(--line);margin-top:4px}
 .ba{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .ba .card{padding:16px}
 .ba .card:first-child{border-color:rgba(201,162,74,.5)}
-.ba .card:last-child{border-color:rgba(61,127,240,.55)}
+.ba .card:last-child{border-color:rgba(225,6,0,.55)}
 .gallery{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-top:20px}
 .frame{margin:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel);cursor:zoom-in;transition:transform .15s,box-shadow .15s}
 .frame:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,0,0,.18)}
@@ -147,6 +147,8 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
 
 dialog{border:0;padding:0;background:none;max-width:95vw}
 dialog iframe{width:min(1280px,92vw);height:85vh;border:0;border-radius:10px;background:#fff}
+dialog img{display:block;max-width:94vw;max-height:90vh;border-radius:10px}
+.shot{cursor:zoom-in}
 dialog::backdrop{background:rgba(0,0,0,.75)}
 
 @media (max-width:960px){.steps{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}}
@@ -216,22 +218,35 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
 <div><dl><dt>Problem</dt><dd>Pracownik nie odróżni fałszywej faktury od prawdziwej, a jedno kliknięcie wystarczy.</dd>
 <dt>Rozwiązanie</dt><dd>Przeciągasz wiadomość, dostajesz ocenę ryzyka i wyjaśnienie każdego sygnału.</dd>
 <dt>Dla kogo</dt><dd>Biura rachunkowe, serwisy IT, małe firmy objęte NIS2.</dd></dl>
-<p style="margin-top:20px"><a class="btn" href="https://github.com/3en4all/PhishingInspector">Kod na GitHubie</a> <span class="soon">Microsoft Store — wkrótce</span></p></div>
+<p style="margin-top:20px"><a class="btn" href="https://apps.microsoft.com/detail/9MW1L4JPG8TD">Microsoft Store</a> <a class="btn ghost" href="https://github.com/3en4all/PhishingInspector">Kod na GitHubie</a></p></div>
 </div>
 
 <div class="case card" style="margin-top:16px">
 <div><h3>BlokerDanych</h3>
 <p>Aplikacja Windows, która offline zaczernia dane osobowe w plikach PDF — PESEL, adresy, numery kont — zanim dokument trafi dalej.</p>
-<span class="tag">Python</span><span class="tag">PySide6</span><span class="tag">OCR</span><span class="tag">MSIX</span><span class="tag">271 testów</span>
-<p class="soon" style="margin-top:16px">Microsoft Store — wkrótce</p></div>
-<dl><dt>Problem</dt><dd>Biura wysyłają skany z danymi osobowymi; ręczne zamazywanie jest wolne i zawodne.</dd>
+<img class="shot" src="assets/hero/blokerdanych.webp" alt="BlokerDanych: wykryte dane osobowe na testowej fakturze, zaznaczone do zaczernienia" loading="lazy" width="1280" height="720">
+<p style="margin-top:12px"><span class="tag">Python</span><span class="tag">PySide6</span><span class="tag">OCR</span><span class="tag">MSIX</span><span class="tag">271 testów</span></p></div>
+<div><dl><dt>Problem</dt><dd>Biura wysyłają skany z danymi osobowymi; ręczne zamazywanie jest wolne i zawodne.</dd>
 <dt>Rozwiązanie</dt><dd>Wykrywanie danych (także w skanach przez OCR) i trwałe usunięcie z pliku, bez internetu.</dd></dl>
+<p style="margin-top:20px"><a class="btn" href="https://apps.microsoft.com/detail/9PL22RNLQZ9W">Microsoft Store</a></p></div>
+</div>
+
+<div class="case card" style="margin-top:16px">
+<div><h3>sysMon</h3>
+<p>Lekki monitor zasobów i serwerów dla Windows: procesor, karta graficzna, pamięć, sieć, dyski, temperatury i wentylatory, a do tego lista uruchomionych usług z portami.</p>
+<img class="shot" src="assets/hero/sysmon.webp" alt="sysMon: kafelki procesora, karty graficznej, pamięci, sieci, dysków, temperatur i wentylatorów oraz lista lokalnych serwerów" loading="lazy" width="1296" height="640">
+<p style="margin-top:12px"><span class="tag">C#</span><span class="tag">.NET 10</span><span class="tag">WPF</span><span class="tag">LibreHardwareMonitor</span><span class="tag">ok. 0,3% CPU</span></p></div>
+<div><dl><dt>Problem</dt><dd>Menedżer zadań nie pokaże naraz temperatur, pamięci karty graficznej i tego, która usługa nasłuchuje na jakim porcie.</dd>
+<dt>Rozwiązanie</dt><dd>Jedno okno z kafelkami i historią, alerty progowe (temperatura, pamięć, miejsce i stan dysków), panel serwerów i zdarzeń Windows.</dd>
+<dt>Dla kogo</dt><dd>Administratorzy małych firm, właściciele domowych serwerów i stanowisk z lokalnym AI.</dd></dl>
+<p style="margin-top:20px"><a class="btn" href="https://github.com/3en4all/sysMonBy3en4all">Kod na GitHubie</a></p></div>
 </div>
 
 <div class="case card" style="margin-top:16px">
 <div><h3>Automatyczna produkcja treści</h3>
 <p>System, który z planu tworzy film: tekst, lektor, kontrola jakości mowy, montaż i wgranie na kilka kanałów jednocześnie.</p>
-<span class="tag">lokalne LLM</span><span class="tag">TTS</span><span class="tag">ASR QC</span><span class="tag">FFmpeg</span><span class="tag">API</span></div>
+<img class="shot" src="assets/hero/automatyzacja.svg" alt="Schemat poglądowy kolejki: plan, tekst, lektor, kontrola mowy, montaż, publikacja; człowiek zatwierdza tekst i gotowy film" loading="lazy" width="1200" height="640">
+<p style="margin-top:12px"><span class="tag">lokalne LLM</span><span class="tag">TTS</span><span class="tag">ASR QC</span><span class="tag">FFmpeg</span><span class="tag">API</span></p></div>
 <div class="ba"><div class="card"><h3>Przed</h3><p>Każdy film ręcznie: nagranie, montaż, wgranie, opis na każdy kanał osobno.</p></div>
 <div class="card"><h3>Po</h3><p>Kolejka robi wszystko sama; człowiek zatwierdza tylko tekst i gotowy film.</p></div></div>
 </div>
@@ -295,14 +310,18 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
 <footer class="dark"><div class="wrap"><span>© 2026 Jacek Grodnicki</span><span>IT · automatyzacja · strony · 3D</span></div></footer>
 
 <dialog id="d"><iframe title="Podgląd koncepcji"></iframe></dialog>
+<dialog id="lb" aria-label="Powiększony zrzut ekranu"><img alt=""></dialog>
 <script>
 const d=document.getElementById('d');
 document.querySelectorAll('.frame').forEach(f=>f.onclick=()=>{d.querySelector('iframe').src=f.dataset.src;d.showModal()});
 d.onclick=()=>d.close();
+// powiększanie zrzutów: klik albo Enter, zamyka klik lub Esc
+document.querySelectorAll('.shot').forEach(i=>{i.tabIndex=0;i.setAttribute('role','button');const o=()=>{lb.firstChild.src=i.src;lb.firstChild.alt=i.alt;lb.showModal()};i.onclick=o;i.onkeydown=e=>{if(e.key==='Enter')o()}});
+lb.onclick=()=>lb.close();
 document.querySelector('.theme').onclick=()=>{const r=document.documentElement,n=r.dataset.theme==='light'?'dark':'light';r.dataset.theme=n;try{localStorage.setItem('motyw',n)}catch(e){}};
 </script>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/","@mkkellogg/gaussian-splats-3d":"https://cdn.jsdelivr.net/npm/@mkkellogg/gaussian-splats-3d@0.4.6/build/gaussian-splats-3d.module.js"}}</script>
-<script type="module" src="js/bg3d.js?v=6"></script>
+<script type="module" src="js/bg3d.js?v=9"></script>
 <script type="module" src="js/demo3d.js?v=2"></script>
 <script type="module" src="js/produkty3d.js?v=4"></script>
 </body>

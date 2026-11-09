@@ -2,11 +2,16 @@
 // widziana z oddali, powoli obracana, nieruchoma przy przewijaniu.
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 
 const canvas = document.getElementById('bg3d');
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const small = Math.min(innerWidth, innerHeight) < 720;
-const BG = 0x0a1634;
+const PAL = window.PALETA || {};                     // podgląd palet ?p=N (index.html)
+const BG = PAL.bg || '#060606';
 
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
 renderer.setPixelRatio(Math.min(devicePixelRatio, small ? 1.25 : 1.5));
@@ -17,21 +22,21 @@ renderer.shadowMap.enabled = !small;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 const scene = new THREE.Scene();
-scene.fog = new THREE.Fog(BG, 130, 330);
+scene.fog = new THREE.Fog(BG, 260, 620);
 const pmrem = new THREE.PMREMGenerator(renderer);
 scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
 scene.environmentIntensity = 0.85;
 
-const camera = new THREE.PerspectiveCamera(34, 1, 1, 600);
-scene.add(new THREE.HemisphereLight(0x9cbcff, 0x0a1a4a, 0.6));
+const camera = new THREE.PerspectiveCamera(28, 1, 1, 1100);
+scene.add(new THREE.HemisphereLight(0xe8e8e8, 0x140606, 0.6));
 const sun = new THREE.DirectionalLight(0xfff4e6, 2.6);
 sun.position.set(45, 90, 35);
 sun.castShadow = !small;
 sun.shadow.mapSize.set(4096, 4096);
-Object.assign(sun.shadow.camera, { left: -110, right: 110, top: 110, bottom: -110, near: 5, far: 260 });
+Object.assign(sun.shadow.camera, { left: -160, right: 160, top: 160, bottom: -160, near: 5, far: 300 });
 sun.shadow.bias = -0.0003; sun.shadow.normalBias = 0.02;
 scene.add(sun);
-const blueLight = new THREE.PointLight(0x4f8dff, 260, 70, 1.5);
+const blueLight = new THREE.PointLight(PAL.p1 || 0xff3b30, 260, 70, 1.5);
 blueLight.position.set(0, 10, 0);
 scene.add(blueLight);
 
@@ -81,6 +86,8 @@ for (let k = 0; k < (small ? 5 : 8); k++) {
   }
 }
 sat.forEach(([x, z], i) => { const sz = pick([4.5, 5.5, 6.5]); fanout(x, z, sz, Math.round(sz * 1.6), 0.5, 5, 10, 'U' + (i + 2)); });
+// różne obudowy układów pomocniczych: QFP z nóżkami, BGA bez nóżek, układ z radiatorem
+chips.forEach((c, i) => { c.kind = i ? pick(['qfp', 'qfp', 'bga', 'hs']) : 'cpu'; });
 
 // magistrale pamięci: szerokie pęki równoległych ścieżek z załamaniami 45°
 function bus(x0, z0, dir, n, len1, len2, turn) {
@@ -123,28 +130,54 @@ for (let k = 0; k < 6; k++) {
   keepout.push([x, z, n * 0.6 + 2]);
   labels.push([x, z + (rot ? 0 : -2.4), 'J' + (k + 1), 0.8]);
 }
+// gniazdo PCIe przy brzegu i złącza zewnętrzne (USB, RJ45) na krawędzi
+const pcie = { x: rnd(-20, 20), z: S / 2 - 16 };
+for (let x = -21; x <= 21; x += 6) keepout.push([pcie.x + x, pcie.z, 3]);
+labels.push([pcie.x - 25, pcie.z, 'PCIE1', 0.9]);
+const ports = [];
+for (let k = 0, x = -S / 2 + 12; k < 5; k++) {
+  const t = k === 2 ? 'rj' : 'usb', w = t === 'rj' ? 6 : 4.4, cx = x + w / 2; x += w + 2.5;
+  if (headers.some(h => !h.rot && h.z < 0 && Math.abs(h.x - cx) < h.n * 0.64 + w / 2 + 1)) continue;
+  ports.push({ t, x: cx, w }); keepout.push([cx, -S / 2 + 4, 4]);
+}
+// serpentyny wyrównujące długość ścieżek
+for (let k = 0; k < 8; k++) {
+  const x0 = rnd(-S / 2 + 10, S / 2 - 30), z0 = rnd(-S / 2 + 10, S / 2 - 10), pts = [[x0, z0]];
+  for (let i = 0; i < 9; i++) { const x = x0 + 1 + i * 1.6, d = i % 2 ? -1.6 : 1.6; pts.push([x, z0], [x, z0 + d], [x + 0.8, z0 + d], [x + 0.8, z0]); }
+  traces.push({ pts, w: 0.15 });
+}
 // gniazda pamięci RAM (długie sloty)
 const slots = [];
 { const x0 = rnd(20, 34) * pick([1, -1]); for (let i = 0; i < 2; i++) { slots.push({ x: x0 + i * 4, z: 0 }); keepout.push([x0 + i * 4, -18, 4], [x0 + i * 4, 0, 4], [x0 + i * 4, 18, 4]); } }
 
 // drobne elementy
 const free = (x, z, m) => keepout.every(([kx, kz, r]) => Math.hypot(kx - x, kz - z) > r + m) && parts.every(p => Math.hypot(p.x - x, p.z - z) > 2.1);
-let rn = 1, cn = 1, dn = 1, ln = 1;
+const cnt = {}; let nCell = 0, nBtn = 0;
 for (let k = 0, placed = 0; k < 2000 && placed < (small ? 160 : 320); k++) {
   const x = rnd(-S / 2 + 3, S / 2 - 3), z = rnd(-S / 2 + 3, S / 2 - 3);
-  const type = pick(['r', 'r', 'r', 'c', 'c', 'c', 'c', 'c', 'el', 'el', 'led', 'ind', 'xtal']);
-  if (!free(x, z, type === 'el' || type === 'ind' ? 1.6 : 0.6)) continue;
-  const rot = pick([0, Math.PI / 2]);
+  const type = pick(['r', 'r', 'r', 'c', 'c', 'c', 'c', 'c', 'el', 'el', 'led', 'ind', 'xtal', 'sot', 'sot', 'sot', 'tan', 'tan', 'tp', 'tp', 'btn', 'cell']);
+  if (!free(x, z, { el: 1.6, ind: 1.6, cell: 2.8, btn: 1.8 }[type] || 0.6)) continue;
+  if ((type === 'cell' && nCell++ > 1) || (type === 'btn' && nBtn++ > 3)) continue;
+  const rot = ['sot', 'btn', 'cell', 'tp'].includes(type) ? 0 : pick([0, Math.PI / 2]);
   parts.push({ type, x, z, rot }); placed++;
-  const name = type === 'r' ? 'R' + rn++ : type === 'c' || type === 'el' ? 'C' + cn++ : type === 'led' ? 'D' + dn++ : type === 'ind' ? 'L' + ln++ : 'Y' + (ln++);
-  labels.push([x, z + (type === 'el' ? 2.1 : type === 'ind' ? 2 : 1.15), name, 0.55]);
+  const pre = { r: 'R', c: 'C', el: 'C', tan: 'C', led: 'D', ind: 'L', xtal: 'Y', sot: 'Q', tp: 'TP', btn: 'SW', cell: 'BT' }[type];
+  labels.push([x, z + ({ el: 2.1, ind: 2, cell: 3.2, btn: 2.3 }[type] || 1.15), pre + (cnt[pre] = (cnt[pre] || 0) + 1), 0.55]);
+  // krótkie odejście ścieżki z załamaniem 45° do przelotki
+  if (type !== 'tp' && type !== 'cell' && Math.random() < 0.45) {
+    const d = pick([[1, 0], [-1, 0], [0, 1], [0, -1]]), l = rnd(1.5, 4), sg = pick([1, -1]);
+    const a = [x + d[0] * 1.2, z + d[1] * 1.2], b = [a[0] + d[0] * l, a[1] + d[1] * l], e = [b[0] + d[0] * 2 + (d[1] ? sg * 2 : 0), b[1] + d[1] * 2 + (d[0] ? sg * 2 : 0)];
+    traces.push({ pts: [a, b, e], w: 0.14 }); vias.push([e[0], e[1], 0.25]);
+  }
 }
+
+// rozsiane przelotki (zszywanie mas)
+for (let k = 0; k < (small ? 250 : 500); k++) { const x = rnd(-S / 2 + 3, S / 2 - 3), z = rnd(-S / 2 + 3, S / 2 - 3); if (free(x, z, 0.3)) vias.push([x, z, 0.2]); }
 
 // ---------- tekstury ----------
 function mk() { const c = document.createElement('canvas'); c.width = c.height = TEX; return [c, c.getContext('2d')]; }
 const [cCol, gCol] = mk(), [cRgh, gRgh] = mk(), [cBmp, gBmp] = mk();
 const P = ([x, z]) => [(x / S + 0.5) * TEX, (z / S + 0.5) * TEX];
-const MASK = '#0a2163', UNDER = '#1a3f99', UNDER_HI = '#2a58bd', POUR = '#0f2d78', GOLD = '#caa75e';
+const MASK = PAL.mask || '#2b0807', UNDER = PAL.tr || '#630705', UNDER_HI = PAL.hi || '#860703', POUR = PAL.pour || '#400706', GOLD = PAL.pad || '#b5a584';
 
 gCol.fillStyle = MASK; gCol.fillRect(0, 0, TEX, TEX);
 { const nc = document.createElement('canvas'); nc.width = nc.height = 256; const ng = nc.getContext('2d'), im = ng.createImageData(256, 256);
@@ -166,7 +199,11 @@ strokeAll(gBmp, '#fff'); strokeAll(gRgh, 'rgb(0,95,0)');
 
 function padsFor(p) {
   if (p.type === 'xtal') return [[p.x - 1.2, p.z, 0.8, 0.9], [p.x + 1.2, p.z, 0.8, 0.9]];
-  const L = { r: [0.9, 0.5], c: [0.8, 0.55], el: [1.3, 0.6], led: [0.8, 0.5], ind: [1.3, 1.0] }[p.type];
+  if (p.type === 'tp') return [[p.x, p.z, 0.7, 0.7]];
+  if (p.type === 'sot') return [[p.x - 0.5, p.z + 0.75, 0.35, 0.5], [p.x + 0.5, p.z + 0.75, 0.35, 0.5], [p.x, p.z - 0.75, 0.35, 0.5]];
+  if (p.type === 'btn') return [[-1, -1], [1, -1], [-1, 1], [1, 1]].map(([a, b]) => [p.x + a * 1.3, p.z + b * 1.3, 0.6, 0.6]);
+  if (p.type === 'cell') return [[p.x - 2.6, p.z, 0.9, 1.4], [p.x + 2.6, p.z, 0.9, 1.4]];
+  const L = { r: [0.9, 0.5], c: [0.8, 0.55], el: [1.3, 0.6], led: [0.8, 0.5], ind: [1.3, 1.0], tan: [1.0, 0.7] }[p.type];
   const [d, s] = L, h = p.rot ? [0, d] : [d, 0];
   return [[p.x - h[0], p.z - h[1], s * 1.1, s * 1.1], [p.x + h[0], p.z + h[1], s * 1.1, s * 1.1]];
 }
@@ -185,6 +222,11 @@ gCol.textAlign = 'center'; gCol.textBaseline = 'middle';
 labels.forEach(([x, z, t, sz]) => { const [px, py] = P([x, z]); gCol.font = `600 ${sz * K}px ui-monospace,Consolas,monospace`; gCol.fillText(t, px, py); });
 chips.forEach(c => { const [px, py] = P([c.x, c.z]), h = (c.size / 2 + 1.6) * K; gCol.strokeRect(px - h, py - h, 2 * h, 2 * h); gCol.beginPath(); gCol.arc(px - h + 0.8 * K, py - h + 0.8 * K, 0.3 * K, 0, 7); gCol.fill(); });
 parts.forEach(p => { if (p.type === 'el') { const [px, py] = P([p.x, p.z]); gCol.beginPath(); gCol.arc(px, py, 1.1 * K, 0, 7); gCol.stroke(); } });
+parts.forEach(p => {
+  const o = { r: [1.7, 0.9], c: [1.5, 0.9], sot: [1.6, 2], tan: [2.4, 1.2], ind: [3, 3], btn: [3.4, 3.4], cell: [6.4, 5] }[p.type]; if (!o) return;
+  const [w, h] = p.rot ? [o[1], o[0]] : o, [px, py] = P([p.x, p.z]); gCol.strokeRect(px - w / 2 * K, py - h / 2 * K, w * K, h * K);
+});
+{ const [px, py] = P([pcie.x, pcie.z]); gCol.strokeRect(px - 22.6 * K, py - 1.8 * K, 45.2 * K, 3.6 * K); }
 slots.forEach(s => { const [px, py] = P([s.x, s.z]); gCol.strokeRect(px - 1.6 * K, py - 34 * K, 3.2 * K, 68 * K); });
 gCol.textAlign = 'left'; gCol.font = `700 ${2.2 * K}px system-ui,sans-serif`;
 { const [px, py] = P([-S / 2 + 8, S / 2 - 7]); gCol.fillText('3EN4ALL  MAINBOARD  REV 2.6', px, py); }
@@ -200,7 +242,7 @@ gCol.font = `500 ${1.1 * K}px ui-monospace,Consolas,monospace`;
 const aniso = renderer.capabilities.getMaxAnisotropy();
 const tex = (c, srgb) => { const t = new THREE.CanvasTexture(c); t.anisotropy = aniso; if (srgb) t.colorSpace = THREE.SRGBColorSpace; return t; };
 const rgh = tex(cRgh);
-const edge = new THREE.MeshStandardMaterial({ color: 0x0a1c4c, roughness: 0.7 });
+const edge = new THREE.MeshStandardMaterial({ color: new THREE.Color(MASK).multiplyScalar(0.8), roughness: 0.7 });
 const topMat = new THREE.MeshPhysicalMaterial({
   map: tex(cCol, true), roughnessMap: rgh, metalnessMap: rgh, roughness: 1, metalness: 1,
   bumpMap: tex(cBmp), bumpScale: 1.2, clearcoat: 0.55, clearcoatRoughness: 0.35,
@@ -221,7 +263,11 @@ const M = {
   sleeve: new THREE.MeshStandardMaterial({ color: 0x14161b, roughness: 0.45 }),
   ind: new THREE.MeshStandardMaterial({ color: 0x2a2c30, roughness: 0.8 }),
   xtal: new THREE.MeshStandardMaterial({ color: 0xc9cdd2, roughness: 0.2, metalness: 1 }),
-  led: new THREE.MeshStandardMaterial({ color: 0x9cc8ff, emissive: 0x3d8bfd, emissiveIntensity: 2.4, roughness: 0.2 }),
+  led: new THREE.MeshStandardMaterial({ color: 0xffb0a8, emissive: 0xff2a1a, emissiveIntensity: 2.4, roughness: 0.2 }),
+  tan: new THREE.MeshStandardMaterial({ color: 0xc8901e, roughness: 0.5 }),
+  hs: new THREE.MeshStandardMaterial({ color: 0x2b3240, roughness: 0.45, metalness: 0.7 }),
+  sub: new THREE.MeshStandardMaterial({ color: 0x1f3326, roughness: 0.6 }),
+  die: new THREE.MeshStandardMaterial({ color: 0x6a717b, roughness: 0.25, metalness: 0.85 }),
 };
 function inst(geo, mat, list) {
   if (!list.length) return;
@@ -230,7 +276,7 @@ function inst(geo, mat, list) {
   m.castShadow = m.receiveShadow = true;
   board.add(m);
 }
-const L = { rB: [], rE: [], cB: [], cE: [], elS: [], elT: [], led: [], ind: [], xt: [], hdr: [], pin: [], chipB: [], chipL: [], slot: [], slotC: [] };
+const L = { rB: [], rE: [], cB: [], cE: [], elS: [], elT: [], led: [], ind: [], xt: [], hdr: [], pin: [], chipB: [], chipL: [], slot: [], slotC: [], sotB: [], sotL: [], tan: [], btnB: [], btnC: [], cell: [], cellH: [], hsB: [], hsF: [], bgaS: [], bgaD: [], pcie: [], usb: [], rj: [] };
 parts.forEach(p => {
   const ax = p.rot ? [0, 1] : [1, 0];
   if (p.type === 'r') { L.rB.push([p.x, 0.22, p.z, p.rot]); [-1, 1].forEach(s => L.rE.push([p.x + ax[0] * s * 0.72, 0.22, p.z + ax[1] * s * 0.72, p.rot])); }
@@ -239,12 +285,18 @@ parts.forEach(p => {
   if (p.type === 'led') L.led.push([p.x, 0.25, p.z, p.rot]);
   if (p.type === 'ind') L.ind.push([p.x, 0.55, p.z, p.rot]);
   if (p.type === 'xtal') L.xt.push([p.x, 0.4, p.z, 0]);
+  if (p.type === 'sot') { L.sotB.push([p.x, 0.3, p.z]); [[-0.5, 0.75], [0.5, 0.75], [0, -0.75]].forEach(([a, b]) => L.sotL.push([p.x + a, 0.1, p.z + b])); }
+  if (p.type === 'tan') L.tan.push([p.x, 0.35, p.z, p.rot]);
+  if (p.type === 'btn') { L.btnB.push([p.x, 0.4, p.z]); L.btnC.push([p.x, 1.0, p.z]); }
+  if (p.type === 'cell') { L.cellH.push([p.x, 0.3, p.z]); L.cell.push([p.x, 0.85, p.z]); }
 });
 headers.forEach(h => {
   L.hdr.push([h.x, 1.25, h.z, h.rot, h.n * 1.27 + 0.6, 1, h.rows * 1.27 + 0.6]);
   for (let i = 0; i < h.n; i++) for (let r = 0; r < h.rows; r++) { const o = (i - (h.n - 1) / 2) * 1.27, q = (r - (h.rows - 1) / 2) * 1.27; L.pin.push(h.rot ? [h.x + q, 2.4, h.z + o] : [h.x + o, 2.4, h.z + q]); }
 });
 chips.forEach(c => {
+  if (c.kind === 'bga') { L.bgaS.push([c.x, 0.15, c.z, 0, c.size + 1.2, 1, c.size + 1.2]); L.bgaD.push([c.x, 0.47, c.z, 0, c.size * 0.62, 1, c.size * 0.62]); return; }
+  if (c.kind === 'hs') { const w = c.size + 1.4; L.hsB.push([c.x, 1.2, c.z, 0, w, 1, w]); for (let i = 0; i < 9; i++) L.hsF.push([c.x - w / 2 + 0.2 + i * (w - 0.4) / 8, 2.9, c.z, 0, 1, 1, w]); }
   L.chipB.push([c.x, c.size > 8 ? 0.75 : 0.55, c.z, 0, c.size, c.size > 8 ? 1.1 : 0.7, c.size]);
   for (let side = 0; side < 4; side++) for (let i = 0; i < c.legs; i++) {
     const x = (i - (c.legs - 1) / 2) * c.pitch, r = side * Math.PI / 2, cs = Math.cos(r), sn = Math.sin(r), lz = c.size / 2 + 0.38;
@@ -267,6 +319,22 @@ inst(new THREE.BoxGeometry(1, 1, 1), M.black, L.chipB);
 inst(new THREE.BoxGeometry(0.2, 0.14, 0.8), M.tin, L.chipL);
 inst(new THREE.BoxGeometry(2.4, 2.2, 68), M.slot, L.slot);
 inst(new THREE.BoxGeometry(2.6, 3, 1.6), M.plastic, L.slotC);
+L.pcie.push([pcie.x, 1.1, pcie.z]);
+ports.forEach(p => (p.t === 'rj' ? L.rj : L.usb).push([p.x, p.t === 'rj' ? 2.1 : 1.5, -S / 2 + 2.6, 0, p.w, 1, 1]));
+inst(new THREE.BoxGeometry(0.9, 0.4, 0.75), M.black, L.sotB);
+inst(new THREE.BoxGeometry(0.22, 0.12, 0.5), M.tin, L.sotL);
+inst(new THREE.BoxGeometry(1.5, 0.7, 0.85), M.tan, L.tan);
+inst(new THREE.BoxGeometry(2.4, 0.8, 2.4), M.alu, L.btnB);
+inst(new THREE.CylinderGeometry(0.6, 0.6, 0.6, 20), M.black, L.btnC);
+inst(new THREE.BoxGeometry(5.6, 0.6, 4.6), M.plastic, L.cellH);
+inst(new THREE.CylinderGeometry(2, 2, 0.5, 40), M.alu, L.cell);
+inst(new THREE.BoxGeometry(1, 0.6, 1), M.hs, L.hsB);
+inst(new THREE.BoxGeometry(0.22, 2.8, 1), M.hs, L.hsF);
+inst(new THREE.BoxGeometry(1, 0.3, 1), M.sub, L.bgaS);
+inst(new THREE.BoxGeometry(1, 0.35, 1), M.die, L.bgaD);
+inst(new THREE.BoxGeometry(44, 2.2, 2.4), M.plastic, L.pcie);
+inst(new THREE.BoxGeometry(1, 3, 5.2), M.alu, L.usb);
+inst(new THREE.BoxGeometry(1, 4.2, 6), M.plastic, L.rj);
 
 // nadruk na głównym procesorze
 const top = document.createElement('canvas'); top.width = top.height = 512;
@@ -315,26 +383,43 @@ function step(Pp, dt) {
   });
   Pp.geo.attributes.position.needsUpdate = true;
 }
-const pBlue = pulses(small ? 70 : 150, 0x8cc4ff, 0.9);
-const pGold = pulses(small ? 10 : 22, 0xf2cc78, 1.0);
+const pBlue = pulses(small ? 70 : 150, PAL.p1 || 0xed6a66, 0.9);
+const pGold = pulses(small ? 10 : 22, PAL.p2 || 0xa3a3a3, 1.0);
 
 // płyta „bez końca”: kopie dzielą geometrię i materiały, każda obrócona o 90°·k, żeby wzór się nie powtarzał
-for (let i = -2; i <= 2; i++) for (let j = -2; j <= 2; j++) {
-  if ((!i && !j) || Math.abs(i) + Math.abs(j) > 3) continue;
-  const c = board.clone(); c.position.set(i * S, 0, j * S); c.rotation.y = Math.floor(rnd(0, 4)) * Math.PI / 2; world.add(c);
+// dalekie kafle (rozmyte, we mgle) mają samą płytkę z teksturą — mniej rysowania
+for (let i = -3; i <= 3; i++) for (let j = -3; j <= 3; j++) {
+  const d = Math.max(Math.abs(i), Math.abs(j));
+  if (!d || Math.abs(i) + Math.abs(j) > 5) continue;
+  const c = d < 2 ? board.clone() : new THREE.Group().add(pcb.clone()); c.position.set(i * S, 0, j * S); c.rotation.y = Math.floor(rnd(0, 4)) * Math.PI / 2; world.add(c);
 }
 
 // ---------- kamera i pętla ----------
+// rozmycie w głąb: od połowy ekranu w górę płyta coraz bardziej się rozmywa (mała głębia ostrości)
+const blur = () => new ShaderPass({
+  uniforms: { tDiffuse: { value: null }, d: { value: new THREE.Vector2() } },
+  vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
+  fragmentShader: `uniform sampler2D tDiffuse; uniform vec2 d; varying vec2 vUv;
+    void main(){ vec2 o = d * smoothstep(0.42, 1.0, vUv.y); float w[5]; w[0]=.227; w[1]=.195; w[2]=.122; w[3]=.054; w[4]=.016;
+      vec4 s = texture2D(tDiffuse, vUv) * w[0];
+      for (int i = 1; i < 5; i++) { s += texture2D(tDiffuse, vUv + o * float(i)) * w[i]; s += texture2D(tDiffuse, vUv - o * float(i)) * w[i]; }
+      gl_FragColor = s; }`,
+});
+const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: small ? 0 : 4 }));
+const bh = blur(), bv = blur();
+[new RenderPass(scene, camera), bh, bv, new OutputPass()].forEach(p => composer.addPass(p));
+
 function resize() {
   const w = innerWidth, h = innerHeight;
   renderer.setSize(w, h, false);
   camera.aspect = w / h;
   const portrait = w < h;
-  camera.fov = portrait ? 50 : 34;
-  const shift = portrait ? 0 : Math.min(40, 11 + (w / h) * 13);
-  camera.position.set(-shift, portrait ? 150 : 120, portrait ? 105 : 115);
-  camera.lookAt(-shift, 0, portrait ? 6 : 10);
+  camera.fov = portrait ? 44 : 28;
+  const shift = portrait ? 0 : Math.min(80, 22 + (w / h) * 26);
+  camera.position.set(-shift, portrait ? 260 : 240, portrait ? 180 : 230);
+  camera.lookAt(-shift, 0, portrait ? 10 : 18);
   camera.updateProjectionMatrix();
+  composer.setSize(w, h); bh.uniforms.d.value.set(3.5 / w, 0); bv.uniforms.d.value.set(0, 3.5 / h);
 }
 addEventListener('resize', resize);
 resize();
@@ -346,8 +431,8 @@ function frame(now) {
   world.rotation.y += dt * 0.03;                    // pełny obrót ok. 3,5 min
   blueLight.intensity = 230 + 50 * Math.sin(now / 1700);
   step(pBlue, dt); step(pGold, dt);
-  renderer.render(scene, camera);
+  composer.render();
 }
-if (reduce) { world.rotation.y = 0.5; step(pBlue, 0); step(pGold, 0); renderer.render(scene, camera); }
+if (reduce) { world.rotation.y = 0.5; step(pBlue, 0); step(pGold, 0); composer.render(); }
 else renderer.setAnimationLoop(now => { if (!document.hidden) frame(now); });
 canvas.classList.add('on');
