@@ -1,54 +1,78 @@
-// Wizualizacje produktów: karta = zdjęcie + model 3D (splat z idol3D). Model ładowany po kliknięciu;
-// naraz działa jedna przeglądarka, bo telefony mają limit kontekstów WebGL.
+// Wizualizacje produktów i scena demo (serwerownia + karta): zdjęcie z przyciskiem „Obejrzyj w 3D” otwiera okno (dialog #m3d) z modelem (splat z idol3D).
+// Jedna przeglądarka naraz (telefony mają limit kontekstów WebGL); zamknięcie okna zwalnia model.
 import * as GS from '@mkkellogg/gaussian-splats-3d';
+import * as THREE from 'three';
 
-let aktywny = null; // { viewer, box }
+const dlg = document.getElementById('m3d');
+const box = dlg.querySelector('.v3d');
+const st = box.querySelector('.st');
+let viewer = null, nr = 0;
 
-// GitHub Pages wysyła gzip z Content-Length mniejszym niż dane (jak w demo3d.js) — pobieramy sami.
+// GitHub Pages wysyła gzip z Content-Length mniejszym niż dane — pobieramy sami.
 const blob = async p => { const r = await fetch(p); if (!r.ok) throw new Error(p + ' ' + r.status); return URL.createObjectURL(await r.blob()); };
 
-const zamknij = async () => {
-    if (!aktywny) return;
-    const { viewer, box } = aktywny;
-    aktywny = null;
+const zwolnij = async () => {
+    nr++;
     box.classList.remove('is-live');
+    const v = viewer; viewer = null;
     // dispose() w 0.4.6 rzuca removeChild (element już odpięty), choć zasoby GPU zwalnia; płótno sprzątamy sami
-    try { await viewer.dispose(); } catch (e) { console.debug('produkty3d dispose:', e); }
+    if (v) { try { await v.dispose(); } catch (e) { console.debug('produkty3d dispose:', e); } try { v.renderer?.dispose(); } catch (e) {} }
     box.querySelectorAll('canvas').forEach(c => c.remove());
 };
 
-document.querySelectorAll('.prod .v3d').forEach(box => {
-    const btn = box.querySelector('button');
-    const etykieta = btn.textContent;
-    btn.addEventListener('click', async () => {
-        btn.disabled = true;
-        btn.textContent = 'Ładowanie…';
-        try {
-            await zamknij();
-            // kamera od strony zdjęcia wejściowego: kierunek idol (yaw, pitch) w osiach pliku, „góra” to -Y
-            const yaw = +box.dataset.yaw, p = +box.dataset.pitch, r = +(box.dataset.r || 1.2);
-            const viewer = new GS.Viewer({
-                rootElement: box,
-                cameraUp: [0, -1, 0],
-                initialCameraPosition: [r * Math.sin(yaw) * Math.cos(p), -r * Math.sin(p), r * Math.cos(yaw) * Math.cos(p)],
-                initialCameraLookAt: [0, 0, 0],
-                sharedMemoryForWorkers: false,
-                gpuAcceleratedSort: false,
-                useBuiltInControls: true,
-            });
-            aktywny = { viewer, box };
-            await viewer.addSplatScene(await blob(box.dataset.splat), { format: GS.SceneFormat.Splat, showLoadingUI: false });
-            viewer.start();
-            if (viewer.controls) { viewer.controls.autoRotate = true; viewer.controls.autoRotateSpeed = 1.2; }
-            box.classList.add('is-live');
-        } catch (err) {
-            console.warn('produkty3d:', err);
-            await zamknij().catch(() => {});
-            btn.textContent = 'Nie udało się wczytać — spróbuj ponownie';
-            btn.disabled = false;
-            return;
+const otworz = async btn => {
+    await zwolnij();
+    const moj = nr;
+    st.textContent = 'Ładowanie modelu 3D…';
+    dlg.showModal();
+    try {
+        // kamera: produkt od strony zdjęcia wejściowego (yaw, pitch idol, „góra” to -Y); scena demo ma stałe ujęcie
+        const demo = btn.dataset.scena === 'demo';
+        const yaw = +btn.dataset.yaw, p = +btn.dataset.pitch, r = +(btn.dataset.r || 1.2);
+        const kamera = demo
+            ? { pos: box.clientWidth < 600 ? [1.1, -0.6, 1.6] : [0.8, -0.45, 1.15], cel: [0, 0.05, 0.3] }
+            : { pos: [r * Math.sin(yaw) * Math.cos(p), -r * Math.sin(p), r * Math.cos(yaw) * Math.cos(p)], cel: [0, 0, 0] };
+        // własny renderer z kanałem alfa: tło okna (30% bieli) prześwituje przez scenę
+        const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true, premultipliedAlpha: true });
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setClearColor(0x000000, 0);
+        renderer.setSize(box.clientWidth, box.clientHeight);
+        box.appendChild(renderer.domElement);
+        const v = new GS.Viewer({
+            rootElement: box,
+            renderer,
+            cameraUp: [0, -1, 0],
+            initialCameraPosition: kamera.pos,
+            initialCameraLookAt: kamera.cel,
+            sharedMemoryForWorkers: false,
+            gpuAcceleratedSort: false,
+            useBuiltInControls: true,
+        });
+        viewer = v;
+        if (demo) {
+            // szafy serwerowe + karta graficzna przed nimi, obrócona wzdłuż rzędu
+            const [serwery, karta] = await Promise.all(['assets/3d/serwerownia.splat', 'assets/3d/karta.splat'].map(blob));
+            if (moj !== nr) return; // okno zamknięte w trakcie
+            await v.addSplatScenes([
+                { path: serwery, format: GS.SceneFormat.Splat },
+                { path: karta, format: GS.SceneFormat.Splat, position: [0, 0.12, 0.75], rotation: [0, 0.7071068, 0, 0.7071068], scale: [0.7, 0.7, 0.7] },
+            ], false);
+        } else {
+            const url = await blob(btn.dataset.splat);
+            if (moj !== nr) return;
+            await v.addSplatScene(url, { format: GS.SceneFormat.Splat, showLoadingUI: false });
         }
-        btn.textContent = etykieta;
-        btn.disabled = false;
-    });
-});
+        if (moj !== nr) return;
+        v.start();
+        if (v.controls) { v.controls.autoRotate = true; v.controls.autoRotateSpeed = demo ? 0.6 : 1.2; }
+        box.classList.add('is-live');
+    } catch (err) {
+        console.warn('produkty3d:', err);
+        if (moj === nr) st.textContent = 'Nie udało się wczytać modelu — zamknij i spróbuj ponownie';
+    }
+};
+
+document.querySelectorAll('.prod .b3d').forEach(b => b.addEventListener('click', () => otworz(b)));
+dlg.querySelector('.x').addEventListener('click', () => dlg.close());
+dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); }); // klik w tło
+dlg.addEventListener('close', zwolnij);

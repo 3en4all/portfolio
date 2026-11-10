@@ -113,13 +113,23 @@ nav .links a.cta:hover{background:var(--acc-hi)}
 .v3d canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
 .v3d .btn{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);box-shadow:0 4px 16px rgba(0,0,0,.25)}
 .v3d.is-live{background:#d9dce0}.v3d.is-live .btn{display:none}
-#demo3d-view{margin-top:20px}
-.prod{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0 0}
-.prod>img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border:1px solid var(--line);border-radius:10px}
-.prod .v3d{aspect-ratio:4/3;background:#d9dce0}
-.prod .v3d.is-live{background:#e9ebee}
-.prod figcaption{grid-column:1/-1;color:var(--mute)}
-.prod figcaption b{color:var(--text);font-size:18px;display:block}
+.prods{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:20px}
+.prod{margin:0}
+.prod .pic{position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.prod .pic img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover}
+.b3d{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:9px 16px;border:0;border-radius:999px;background:rgba(15,17,22,.78);color:#fff;font:600 14px system-ui,sans-serif;cursor:pointer;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);box-shadow:0 4px 16px rgba(0,0,0,.3);transition:background .15s}
+.b3d:hover,.b3d:focus-visible{background:var(--acc,#e10600)}
+.b3d svg{width:20px;height:20px}
+.prod.scena{margin-top:20px}.prod.scena .pic img{aspect-ratio:16/9}
+.prod figcaption{color:var(--mute);margin-top:10px;font-size:15px}
+#m3d{width:min(900px,94vw);max-width:none}
+#m3d::backdrop{background:rgba(0,0,0,.5)}
+#m3d .v3d{aspect-ratio:4/3;background:transparent}
+#m3d .v3d.is-live{background:transparent;border-color:transparent}
+#m3d .x{position:absolute;top:10px;right:10px;z-index:2;width:38px;height:38px;border:0;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;font-size:22px;cursor:pointer}
+#m3d .st{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font:600 15px system-ui,sans-serif;pointer-events:none}
+#m3d .v3d.is-live .st{display:none}
+.prod figcaption b{color:var(--text);font-size:17px;display:block}
 
 /* jak pracuję */
 .steps{list-style:none;padding:0;margin:36px 0 0;display:grid;grid-template-columns:repeat(5,1fr);gap:12px;counter-reset:s}
@@ -164,7 +174,7 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
   nav .links a{padding:8px 6px;font-size:12px;letter-spacing:.02em}
   nav .links a.cta{margin-left:2px}
   .theme{margin-left:4px;width:32px;height:32px}
-  .prod,.ba{grid-template-columns:1fr}
+  .ba{grid-template-columns:1fr}
   .v3d{aspect-ratio:4/3}
   .gallery{grid-template-columns:1fr}
 }
@@ -239,7 +249,7 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
 <div><dl><dt>Problem</dt><dd>Menedżer zadań nie pokaże naraz temperatur, pamięci karty graficznej i tego, która usługa nasłuchuje na jakim porcie.</dd>
 <dt>Rozwiązanie</dt><dd>Jedno okno z kafelkami i historią, alerty progowe (temperatura, pamięć, miejsce i stan dysków), panel serwerów i zdarzeń Windows.</dd>
 <dt>Dla kogo</dt><dd>Administratorzy małych firm, właściciele domowych serwerów i stanowisk z lokalnym AI.</dd></dl>
-<p style="margin-top:20px"><a class="btn" href="https://github.com/3en4all/sysMonBy3en4all">Kod na GitHubie</a></p></div>
+<p style="margin-top:20px"><a class="btn" href="https://apps.microsoft.com/search?query=sysMon%203en4all">Microsoft Store</a> <a class="btn ghost" href="https://github.com/3en4all/sysMonBy3en4all">Kod na GitHubie</a></p></div>
 </div>
 
 <div class="case card" style="margin-top:16px">
@@ -261,18 +271,24 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
 <figure class="frame" data-src="koncepcje/gabinet.html"><div class="bar"><i></i><i></i><i></i></div><img src="koncepcje/img/gabinet.png" alt="Koncepcja strony: Gabinet" loading="lazy" width="1280" height="800"><figcaption><b>Gabinet fizjoterapii</b> · jasna, spokojna, rezerwacja wizyt</figcaption></figure>
 <figure class="frame" data-src="koncepcje/eventy.html"><div class="bar"><i></i><i></i><i></i></div><img src="koncepcje/img/eventy.png" alt="Koncepcja strony: Dekoracje eventowe" loading="lazy" width="1280" height="800"><figcaption><b>Dekoracje i eventy</b> · duże zdjęcia, formularz z datą i liczbą gości</figcaption></figure>
 <figure class="frame" data-src="koncepcje/remonty.html"><div class="bar"><i></i><i></i><i></i></div><img src="koncepcje/img/remonty.png" alt="Koncepcja strony: Firma remontowa" loading="lazy" width="1280" height="800"><figcaption><b>Firma remontowa</b> · telefon na wierzchu, przed/po, liczby</figcaption></figure>
+<figure class="frame" data-src="koncepcje/restauracja.html"><div class="bar"><i></i><i></i><i></i></div><img src="koncepcje/img/restauracja.png" alt="Koncepcja strony: Restauracja" loading="lazy" width="1280" height="800"><figcaption><b>Restauracja</b> · ciemna, klimatyczna, menu i rezerwacja stolika</figcaption></figure>
+<figure class="frame" data-src="koncepcje/ksiegowosc.html"><div class="bar"><i></i><i></i><i></i></div><img src="koncepcje/img/ksiegowosc.png" alt="Koncepcja strony: Biuro rachunkowe" loading="lazy" width="1280" height="800"><figcaption><b>Biuro rachunkowe</b> · kalkulator ceny, pakiety, bezpłatna wycena</figcaption></figure>
+<figure class="frame" data-src="koncepcje/fryzjer.html"><div class="bar"><i></i><i></i><i></i></div><img src="koncepcje/img/fryzjer.png" alt="Koncepcja strony: Salon fryzjerski" loading="lazy" width="1280" height="800"><figcaption><b>Salon fryzjerski</b> · elegancka, cennik, rezerwacja online</figcaption></figure>
+<figure class="frame" data-src="koncepcje/jezyki.html"><div class="bar"><i></i><i></i><i></i></div><img src="koncepcje/img/jezyki.png" alt="Koncepcja strony: Szkoła językowa" loading="lazy" width="1280" height="800"><figcaption><b>Szkoła językowa</b> · energiczna, test poziomujący, oferta kursów</figcaption></figure>
 </div>
 </div>
 
 <div class="sub" id="r-3d">
 <h3>3D <span>wizualizacje</span></h3>
-<p>Interaktywne prezentacje opakowań na stronę, do sklepu i kampanii. Klient obraca produkt w przeglądarce, bez instalowania czegokolwiek. Pracuję na zdjęciach produktu, plikach produkcyjnych opakowania albo na przesłanym egzemplarzu. Przeciągnij, żeby obrócić; kółko przybliża.</p>
-<figure class="prod"><img src="assets/produkty/butelka.jpg" alt="Zielona butelka z czystą etykietą — zdjęcie" loading="lazy" width="960" height="524"><div class="v3d" data-splat="assets/3d/opakowania/butelka.splat" data-yaw="1.59" data-pitch="0.1"><button class="btn" type="button">Obejrzyj w 3D (8 MB)</button></div><figcaption><b>Linia kosmetyków</b>Butelka szamponu: prezentacja produktu na stronę sklepu.</figcaption></figure>
-<figure class="prod"><img src="assets/produkty/pudelko.jpg" alt="Zielone pudełko z wieczkiem — zdjęcie" loading="lazy" width="960" height="524"><div class="v3d" data-splat="assets/3d/opakowania/pudelko.splat" data-yaw="0.77" data-pitch="0.35"><button class="btn" type="button">Obejrzyj w 3D (8 MB)</button></div><figcaption><b>Opakowanie premium</b>Pudełko z wieczkiem: wizualizacja na premierę produktu.</figcaption></figure>
-<figure class="prod"><img src="assets/produkty/saszetka.jpg" alt="Zielona saszetka — zdjęcie" loading="lazy" width="960" height="719"><div class="v3d" data-splat="assets/3d/opakowania/saszetka.splat" data-yaw="1.32" data-pitch="0.2"><button class="btn" type="button">Obejrzyj w 3D (8 MB)</button></div><figcaption><b>Opakowanie miękkie</b>Saszetka z fałdami: wizualizacja do kampanii i social mediów.</figcaption></figure>
+<p>Interaktywne prezentacje opakowań na stronę, do sklepu i kampanii. Klient obraca produkt w przeglądarce, bez instalowania czegokolwiek. Pracuję na zdjęciach produktu, plikach produkcyjnych opakowania albo na przesłanym egzemplarzu. Kliknij „Obejrzyj w 3D” na zdjęciu (ok. 8 MB); w oknie przeciągnij, żeby obrócić, kółko przybliża.</p>
+<div class="prods">
+<figure class="prod"><div class="pic"><img src="assets/produkty/butelka.jpg" alt="Zielona butelka z czystą etykietą — zdjęcie" loading="lazy" width="960" height="524"><button class="b3d" type="button" data-splat="assets/3d/opakowania/butelka.splat" data-yaw="1.59" data-pitch="0.1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 22V12M21 7l-9 5-9-5"/></svg>Obejrzyj w 3D</button></div><figcaption><b>Linia kosmetyków</b>Butelka szamponu: prezentacja produktu na stronę sklepu.</figcaption></figure>
+<figure class="prod"><div class="pic"><img src="assets/produkty/pudelko.jpg" alt="Zielone pudełko z wieczkiem — zdjęcie" loading="lazy" width="960" height="524"><button class="b3d" type="button" data-splat="assets/3d/opakowania/pudelko.splat" data-yaw="0.77" data-pitch="0.35"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 22V12M21 7l-9 5-9-5"/></svg>Obejrzyj w 3D</button></div><figcaption><b>Opakowanie premium</b>Pudełko z wieczkiem: wizualizacja na premierę produktu.</figcaption></figure>
+<figure class="prod"><div class="pic"><img src="assets/produkty/saszetka.jpg" alt="Zielona saszetka — zdjęcie" loading="lazy" width="960" height="719"><button class="b3d" type="button" data-splat="assets/3d/opakowania/saszetka.splat" data-yaw="1.32" data-pitch="0.2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 22V12M21 7l-9 5-9-5"/></svg>Obejrzyj w 3D</button></div><figcaption><b>Opakowanie miękkie</b>Saszetka z fałdami: wizualizacja do kampanii i social mediów.</figcaption></figure>
+</div>
 <h3 style="margin-top:40px">Scena z jednego obrazu</h3>
 <p style="color:var(--mute);margin:0">Szafy serwerowe i karta graficzna powstały z dwóch pojedynczych grafik, wygenerowane lokalnie na zwykłej karcie graficznej, bez chmury.</p>
-<div class="v3d" id="demo3d-view"><button class="btn" id="demo3d-start" type="button">Uruchom podgląd 3D (ok. 10 MB)</button></div>
+<figure class="prod scena"><div class="pic"><img src="assets/3d/poster.jpg" alt="Szafy serwerowe i karta graficzna — podgląd sceny 3D" loading="lazy"><button class="b3d" type="button" data-scena="demo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 22V12M21 7l-9 5-9-5"/></svg>Obejrzyj w 3D</button></div></figure>
 </div>
 </div></section>
 
@@ -310,6 +326,7 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
 <footer class="dark"><div class="wrap"><span>© 2026 Jacek Grodnicki</span><span>IT · automatyzacja · strony · 3D</span></div></footer>
 
 <dialog id="d"><iframe title="Podgląd koncepcji"></iframe></dialog>
+<dialog id="m3d" aria-label="Model 3D produktu"><button class="x" type="button" aria-label="Zamknij">×</button><div class="v3d"><span class="st">Ładowanie modelu 3D…</span></div></dialog>
 <dialog id="lb" aria-label="Powiększony zrzut ekranu"><img alt=""></dialog>
 <script>
 const d=document.getElementById('d');
@@ -322,7 +339,6 @@ document.querySelector('.theme').onclick=()=>{const r=document.documentElement,n
 </script>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/","@mkkellogg/gaussian-splats-3d":"https://cdn.jsdelivr.net/npm/@mkkellogg/gaussian-splats-3d@0.4.6/build/gaussian-splats-3d.module.js"}}</script>
 <script type="module" src="js/bg3d.js?v=9"></script>
-<script type="module" src="js/demo3d.js?v=2"></script>
-<script type="module" src="js/produkty3d.js?v=4"></script>
+<script type="module" src="js/produkty3d.js?v=7"></script>
 </body>
 </html>
