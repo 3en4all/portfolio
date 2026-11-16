@@ -6,7 +6,8 @@
 <meta name="robots" content="noindex">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%22150 65 155 137%22%3E%3Cpath fill=%22%23e10600%22 d=%22M212 69 154 169 203 155 223 82ZM243 69 231 117 286 172 301 168ZM286 196 251 161 176 180 171 198Z%22/%3E%3C/svg%3E">
 <title>Jacek Grodnicki — IT, automatyzacja, strony i 3D</title>
-<script>try{var t=localStorage.getItem("motyw");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<script>try{var t=localStorage.getItem("motyw");if(t)document.documentElement.dataset.theme=t}catch(e){}
+if('IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('js-anim')</script>
 <style>
 /* motyw: dół strony ciemny domyślnie, przełączany; menu, hero i "Jak pracuję" zawsze ciemne */
 :root{
@@ -75,6 +76,11 @@ nav .links a.cta:hover{background:var(--acc-hi)}
 .glass>*{position:relative;z-index:1}
 @keyframes sheen{0%,100%{transform:translateX(-18%)}50%{transform:translateX(18%)}}
 @media (prefers-reduced-motion:reduce){.glass::before{animation:none}}
+
+/* wejścia kafelków przy przewijaniu: spokojne pojawienie, bez przestrzelenia i błysku; klasę js-anim dodaje skrypt w head */
+.js-anim .rv{opacity:0;transform:translateY(20px);transition:transform .8s cubic-bezier(.2,.7,.2,1),opacity .8s ease,box-shadow .3s}
+.js-anim .rv.in{opacity:1;transform:none}
+.js-anim .rv.in:is(.frame,.prod,.grid .card):hover{transform:translateY(-5px);box-shadow:0 12px 30px rgba(225,6,0,.22)}
 .hero .lead{margin-bottom:28px;color:#b8c3d6}
 .hero .btns{display:flex;flex-wrap:wrap;gap:12px}
 .hero .btn.ghost{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.04)}
@@ -335,6 +341,11 @@ d.onclick=()=>d.close();
 // powiększanie zrzutów: klik albo Enter, zamyka klik lub Esc
 document.querySelectorAll('.shot').forEach(i=>{i.tabIndex=0;i.setAttribute('role','button');const o=()=>{lb.firstChild.src=i.src;lb.firstChild.alt=i.alt;lb.showModal()};i.onclick=o;i.onkeydown=e=>{if(e.key==='Enter')o()}});
 lb.onclick=()=>lb.close();
+// wejścia kafelków i treści przy przewijaniu
+if(document.documentElement.classList.contains('js-anim')){
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const n=e.target;io.unobserve(n);n.classList.add('in');setTimeout(()=>n.style.transitionDelay='',1400)}),{rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.grid>.card,.case,.frame,.prod,section h2,section .lead,.steps>li,.faq>details,.stack,.contact .box').forEach(n=>{n.classList.add('rv');n.style.transitionDelay=[...n.parentNode.children].indexOf(n)%3*90+'ms';io.observe(n)});
+}
 document.querySelector('.theme').onclick=()=>{const r=document.documentElement,n=r.dataset.theme==='light'?'dark':'light';r.dataset.theme=n;try{localStorage.setItem('motyw',n)}catch(e){}};
 </script>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/","@mkkellogg/gaussian-splats-3d":"https://cdn.jsdelivr.net/npm/@mkkellogg/gaussian-splats-3d@0.4.6/build/gaussian-splats-3d.module.js"}}</script>
