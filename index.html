@@ -78,6 +78,7 @@ nav .links a.cta:hover{background:var(--acc-hi)}
 @media (prefers-reduced-motion:reduce){.glass::before{animation:none}}
 
 /* wejścia kafelków przy przewijaniu: spokojne pojawienie, bez przestrzelenia i błysku; klasę js-anim dodaje skrypt w head */
+#pasek{position:fixed;left:0;right:0;top:0;height:3px;background:var(--acc);box-shadow:0 0 10px var(--acc);transform-origin:0 50%;transform:scaleX(0);z-index:100;pointer-events:none}
 .js-anim .rv{opacity:0;transform:translateY(20px);transition:transform .8s cubic-bezier(.2,.7,.2,1),opacity .8s ease,box-shadow .3s}
 .js-anim .rv.in{opacity:1;transform:none}
 .js-anim .rv.in:is(.frame,.prod,.grid .card):hover{transform:translateY(-5px);box-shadow:0 12px 30px rgba(225,6,0,.22)}
@@ -97,6 +98,9 @@ nav .links a.cta:hover{background:var(--acc-hi)}
 .chips a{text-decoration:none;font-weight:600;font-size:14px;border:1px solid var(--line);background:var(--panel);color:var(--text);padding:8px 14px;border-radius:999px}
 .chips a:hover{border-color:var(--acc);color:var(--acc-ink)}
 .sub{margin-top:56px;padding-top:8px}
+.card ul.do{margin:10px 0 8px;padding-left:18px;color:var(--mute);font-size:15px}.card ul.do li{margin:3px 0}
+.dla{margin:-10px 0 24px;font-size:15px;color:#b8c3d6;max-width:640px}
+.zasady{margin-top:32px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}.zasady .card p{color:var(--d-mute)}
 .sub>h3{font-size:22px;display:flex;align-items:baseline;gap:12px}
 .sub>h3 span{font:600 12px/1 ui-monospace,Consolas,monospace;color:var(--acc-ink);letter-spacing:.1em;text-transform:uppercase}
 .sub>p{color:var(--mute);margin:0;max-width:680px}
@@ -188,6 +192,7 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
 </style>
 </head>
 <body>
+<div id="pasek" aria-hidden="true"></div>
 <nav><div class="wrap">
 <a class="brand" href="#"><svg viewBox="150 65 155 137" role="img" aria-label="3EN4ALL"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="#b9c2d0"/><stop offset="1" stop-color="#6f7b8f"/></linearGradient></defs><path fill="url(#lg)" d="M212 69 154 169 203 155 223 82ZM243 69 231 117 286 172 301 168ZM286 196 251 161 176 180 171 198Z"/></svg><span>Jacek Grodnicki</span><small>IT · automatyzacja · 3D</small></a>
 <div class="links"><a href="#uslugi">Usługi</a><a href="#realizacje">Realizacje</a><a href="#jak-pracuje">Jak pracuję</a><a class="cta" href="#kontakt">Kontakt</a><button class="theme" type="button" aria-label="Zmień kolory: jasne / ciemne" title="Jasne / ciemne"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button></div>
@@ -199,6 +204,7 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
 <div class="kick">Zdalnie · IT · Automatyzacja · Strony · 3D</div>
 <h1>Utrzymuję IT małych firm i automatyzuję to, co zjada wam czas.</h1>
 <p class="lead">Administracja i bezpieczeństwo, automatyzacja procesów i lokalne AI, a do tego strony i interaktywne prezentacje produktów. Jedna osoba do kontaktu, praca zdalna.</p>
+<p class="dla">Dla biur rachunkowych, kancelarii, serwisów i małych firm usługowych, które nie mają własnego informatyka.</p>
 <div class="btns"><a class="btn" href="#realizacje">Zobacz realizacje</a><a class="btn ghost" href="#kontakt">Opisz zlecenie</a></div>
 </div>
 </div></header>
@@ -206,21 +212,21 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
 <section id="uslugi"><div class="wrap">
 <div class="kick">Usługi</div>
 <h2>Czym mogę się zająć</h2>
-<p class="lead">Od codziennego utrzymania komputerów po narzędzia, które robią powtarzalną pracę za was.</p>
+<p class="lead">Od codziennego utrzymania komputerów po narzędzia, które robią powtarzalną pracę za was. Przy każdej usłudze przykładowe zadania, które mogę wziąć od razu.</p>
 <div class="grid">
-<div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></div><h3>Administracja i wsparcie IT</h3><p>Komputery, sieć, kopie zapasowe, konta Microsoft 365 / Google. Pomoc zdalna, gdy coś przestaje działać.</p><span class="tag">Windows</span><span class="tag">sieć</span><span class="tag">backup</span></div>
-<div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div><h3>Bezpieczeństwo poczty i danych</h3><p>Sprawdzenie SPF/DKIM/DMARC, analiza podejrzanych wiadomości, anonimizacja dokumentów przed wysłaniem.</p><span class="tag">NIS2</span><span class="tag">RODO</span><span class="tag">phishing</span></div>
-<div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M4 12h16M4 18h7"/><circle cx="18" cy="6" r="2"/><circle cx="15" cy="18" r="2"/></svg></div><h3>Automatyzacja procesów</h3><p>Raporty, publikacje, przetwarzanie plików — zamienione w skrypty i kolejki, które działają same.</p><span class="tag">Python</span><span class="tag">PowerShell</span><span class="tag">n8n</span></div>
-<div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg></div><h3>Lokalne AI w firmie</h3><p>Modele językowe i rozpoznawanie mowy na waszym komputerze. Bez wysyłania dokumentów na zewnątrz.</p><span class="tag">Ollama</span><span class="tag">ASR/TTS</span><span class="tag">offline</span></div>
-<div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></svg></div><h3>Strony firmowe</h3><p>Proste, szybkie strony jednostronicowe: oferta, kontakt, mapa. Dopasowane do telefonu.</p><span class="tag">one page</span><span class="tag">responsywne</span></div>
-<div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 22V12M21 7l-9 5-9-5"/></svg></div><h3>Wizualizacje produktów 3D</h3><p>Model produktu, który klient obraca w przeglądarce — na stronę, do sklepu, do kampanii.</p><span class="tag">WebGL</span><span class="tag">GLB</span></div>
+<div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></div><h3>Administracja i wsparcie IT</h3><p>Komputery, sieć, kopie zapasowe, konta Microsoft 365 / Google. Pomoc zdalna, gdy coś przestaje działać.</p><ul class="do"><li>przygotowanie nowego stanowiska i kont,</li><li>kopie zapasowe ze sprawdzonym odtworzeniem,</li><li>diagnoza wolnego lub przegrzewającego się komputera.</li></ul><span class="tag">Windows</span><span class="tag">sieć</span><span class="tag">backup</span></div>
+<div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div><h3>Bezpieczeństwo poczty i danych</h3><p>Sprawdzenie SPF/DKIM/DMARC, analiza podejrzanych wiadomości, anonimizacja dokumentów przed wysłaniem.</p><ul class="do"><li>sprawdzenie rekordów poczty domeny z raportem, co poprawić,</li><li>ocena podejrzanej wiadomości, zanim ktoś kliknie,</li><li>zaczernienie danych osobowych w PDF przed wysyłką.</li></ul><span class="tag">NIS2</span><span class="tag">RODO</span><span class="tag">phishing</span></div>
+<div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M4 12h16M4 18h7"/><circle cx="18" cy="6" r="2"/><circle cx="15" cy="18" r="2"/></svg></div><h3>Automatyzacja procesów</h3><p>Raporty, publikacje, przetwarzanie plików — zamienione w skrypty i kolejki, które działają same.</p><ul class="do"><li>porządkowanie poczty i faktur z akceptacją człowieka,</li><li>harmonogram publikacji w mediach społecznościowych,</li><li>zestawienia z plików CSV i Excel bez ręcznego kopiowania.</li></ul><span class="tag">Python</span><span class="tag">PowerShell</span><span class="tag">n8n — w nauce</span></div>
+<div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg></div><h3>Lokalne AI w firmie</h3><p>Modele językowe i rozpoznawanie mowy na waszym komputerze. Bez wysyłania dokumentów na zewnątrz.</p><ul class="do"><li>transkrypcja nagrań i spotkań offline,</li><li>odczyt tekstu ze skanów bez chmury,</li><li>dobór modelu do sprzętu, który już macie.</li></ul><span class="tag">Ollama</span><span class="tag">ASR/TTS</span><span class="tag">offline</span></div>
+<div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></svg></div><h3>Strony firmowe</h3><p>Proste, szybkie strony jednostronicowe: oferta, kontakt, mapa. Dopasowane do telefonu.</p><ul class="do"><li>strona z ofertą, formularzem i mapą,</li><li>odświeżenie starej strony i wersja na telefon,</li><li>dziewięć koncepcji do obejrzenia niżej w Realizacjach.</li></ul><span class="tag">one page</span><span class="tag">responsywne</span></div>
+<div class="card"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 22V12M21 7l-9 5-9-5"/></svg></div><h3>Wizualizacje produktów 3D</h3><p>Model produktu, który klient obraca w przeglądarce — na stronę, do sklepu, do kampanii.</p><ul class="do"><li>model ze zdjęć produktu albo pliku etykiety,</li><li>osadzenie na stronie sklepu,</li><li>drugi wariant etykiety na tej samej bryle.</li></ul><span class="tag">WebGL</span><span class="tag">GLB</span></div>
 </div>
 </div></section>
 
 <section id="realizacje" class="alt"><div class="wrap">
 <div class="kick">Realizacje</div>
 <h2>Co już zbudowałem</h2>
-<p class="lead">Własne aplikacje, koncepcje stron i modele 3D. Koncepcje i opakowania to projekty demonstracyjne, nie zlecenia klientów.</p>
+<p class="lead">Własne aplikacje, automatyzacje, koncepcje stron i modele 3D. Każdy projekt da się sprawdzić: link do sklepu, kod albo prezentacja z opisem testów. Koncepcje, opakowania i Office AI to projekty demonstracyjne, nie zlecenia klientów.</p>
 <div class="chips"><a href="#r-aplikacje">Aplikacje</a><a href="#r-strony">Strony</a><a href="#r-3d">3D</a></div>
 
 <div class="sub" id="r-aplikacje">
@@ -243,7 +249,9 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
 <img class="shot" src="assets/hero/blokerdanych.webp" alt="BlokerDanych: wykryte dane osobowe na testowej fakturze, zaznaczone do zaczernienia" loading="lazy" width="1280" height="720">
 <p style="margin-top:12px"><span class="tag">Python</span><span class="tag">PySide6</span><span class="tag">OCR</span><span class="tag">MSIX</span><span class="tag">271 testów</span></p></div>
 <div><dl><dt>Problem</dt><dd>Biura wysyłają skany z danymi osobowymi; ręczne zamazywanie jest wolne i zawodne.</dd>
-<dt>Rozwiązanie</dt><dd>Wykrywanie danych (także w skanach przez OCR) i trwałe usunięcie z pliku, bez internetu.</dd></dl>
+<dt>Rozwiązanie</dt><dd>Wykrywanie danych (także w skanach przez OCR) i trwałe usunięcie z pliku, bez internetu.</dd>
+<dt>Dla kogo</dt><dd>Biura rachunkowe, kancelarie, działy kadr: każdy, kto przekazuje dalej skany z danymi osobowymi.</dd>
+<dt>Model sprzedaży</dt><dd>Wersja podstawowa i płatny dodatek Pro w Microsoft Store.</dd></dl>
 <p style="margin-top:20px"><a class="btn" href="https://apps.microsoft.com/detail/9PL22RNLQZ9W">Microsoft Store</a></p></div>
 </div>
 
@@ -262,9 +270,31 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
 <div><h3>Automatyczna produkcja treści</h3>
 <p>System, który z planu tworzy film: tekst, lektor, kontrola jakości mowy, montaż i wgranie na kilka kanałów jednocześnie.</p>
 <img class="shot" src="assets/hero/automatyzacja.svg" alt="Schemat poglądowy kolejki: plan, tekst, lektor, kontrola mowy, montaż, publikacja; człowiek zatwierdza tekst i gotowy film" loading="lazy" width="1200" height="640">
-<p style="margin-top:12px"><span class="tag">lokalne LLM</span><span class="tag">TTS</span><span class="tag">ASR QC</span><span class="tag">FFmpeg</span><span class="tag">API</span></p></div>
+<p style="margin-top:12px"><span class="tag">lokalne LLM</span><span class="tag">TTS</span><span class="tag">ASR QC</span><span class="tag">FFmpeg</span><span class="tag">API</span></p>
+<p style="margin-top:12px;color:var(--mute)">Obsługuje cztery kanały YouTube po polsku i angielsku. Kontrola mowy porównuje nagranie lektora z tekstem i zatrzymuje film z przekręconymi słowami, zanim trafi do montażu.</p></div>
 <div class="ba"><div class="card"><h3>Przed</h3><p>Każdy film ręcznie: nagranie, montaż, wgranie, opis na każdy kanał osobno.</p></div>
 <div class="card"><h3>Po</h3><p>Kolejka robi wszystko sama; człowiek zatwierdza tylko tekst i gotowy film.</p></div></div>
+</div>
+
+<div class="case card" style="margin-top:16px">
+<div><h3>Dystrybucja shortów w n8n</h3>
+<p>Zamknięta kampania: cztery shorty dziennie na każde konto Instagram, Threads i TikTok w wersjach PL/EN. n8n steruje terminami, istniejący silnik obsługuje API i zapis wyników.</p>
+<p style="margin-top:12px"><span class="tag">n8n — w nauce</span><span class="tag">Python</span><span class="tag">API</span><span class="tag">projekt demonstracyjny</span></p></div>
+<div><dl><dt>Problem</dt><dd>Ręczna obsługa kilku kont, różnych opisów i terminów utrudnia pilnowanie wysyłek.</dd>
+<dt>Rozwiązanie</dt><dd>Lista zatwierdzonych filmów, rezerwacja terminów, kontrola SHA-256 i wstrzymanie po niepewnym wyniku. TikTok wyłącznie do szkiców.</dd>
+<dt>Sprawdzenie</dt><dd>Potwierdzono jednorazowy test PL: publikacje Instagram/Threads i szkic TikToka. Harmonogram n8n jest aktywny, pierwsze planowe wysyłki od 14 listopada.</dd></dl>
+<p style="margin-top:20px"><a class="btn" href="p/n8nShorty/">Zobacz prezentację</a></p></div>
+</div>
+
+<div class="case card" style="margin-top:16px">
+<div><h3>Office AI: poczta, faktury, rekrutacja</h3>
+<p>Demonstracyjny workflow n8n, który porządkuje skrzynkę: rozpoznaje faktury, potwierdzenia zakupów, odpowiedzi rekrutacyjne i spam, a każdą decyzję zostawia człowiekowi do zatwierdzenia.</p>
+<img class="shot" src="assets/hero/officeai.webp" alt="Widok workflow Office AI w n8n: grupy węzłów dla poczty, faktur, rekrutacji, spamu i raportu" loading="lazy" width="1836" height="1013">
+<p style="margin-top:12px"><span class="tag">n8n — w nauce</span><span class="tag">Ollama</span><span class="tag">projekt demonstracyjny</span></p></div>
+<div><dl><dt>Problem</dt><dd>W małym biurze faktury, zamówienia, CV i spam trafiają do jednej skrzynki; łatwo przeoczyć termin albo zapłacić dwa razy.</dd>
+<dt>Rozwiązanie</dt><dd>Faktury: kwoty liczone w groszach, wykrywanie duplikatów, osobne sumy dla walut, zmiana numeru konta do sprawdzenia. Mail o wpłacie nie jest dowodem zapłaty. Spam dostaje etykietę zamiast usunięcia. Ochrona przed niebezpiecznymi załącznikami i prompt injection.</dd>
+<dt>Sprawdzenie</dt><dd>17 fikcyjnych wiadomości, przebieg lokalnej symulacji zakończony powodzeniem, wszystkie decyzje zgodne z oczekiwanymi (np. 1698 PLN i 29 EUR liczone osobno). Workflow nieaktywny, bez połączeń z prawdziwą pocztą i modelami.</dd></dl>
+<p style="margin-top:20px"><a class="btn" href="p/officeAi/">Zobacz prezentację</a></p></div>
 </div>
 </div>
 
@@ -301,19 +331,27 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
 <section id="jak-pracuje" class="dark"><div class="wrap">
 <div class="kick">Jak pracuję</div>
 <h2>Od rozmowy do działającego rozwiązania</h2>
+<div class="grid zasady">
+<div class="card"><h3>Człowiek zatwierdza</h3><p>Wysyłki, płatności i usuwanie danych zawsze czekają na akceptację. Tak działają Office AI i automat publikacji.</p></div>
+<div class="card"><h3>Dane zostają u was</h3><p>Lokalne modele i narzędzia offline tam, gdzie się da. BlokerDanych i odczyt skanów działają bez internetu.</p></div>
+<div class="card"><h3>Dowód zamiast obietnicy</h3><p>Testy i opis tego, co sprawdzone, a czego nie. BlokerDanych ma 271 testów, Office AI automatycznie sprawdzane 17 decyzji.</p></div>
+<div class="card"><h3>Kopia przed zmianą</h3><p>Przed edycją plików i konfiguracji robię kopię. Każdą zmianę da się cofnąć.</p></div>
+</div>
 <ol class="steps">
-<li><b>Rozmowa</b><p>Krótko online: co nie działa i co ma działać.</p></li>
-<li><b>Wycena</b><p>Konkretny zakres i cena, zanim cokolwiek zacznę.</p></li>
-<li><b>Realizacja</b><p>Zdalnie, z podglądem postępów.</p></li>
-<li><b>Poprawki</b><p>Uwagi wprowadzam w ustalonym zakresie.</p></li>
-<li><b>Przekazanie</b><p>Pliki, dostępy i opis tego, co zrobione. Potem wsparcie, jeśli potrzebne.</p></li>
+<li><b>Rozmowa</b><p>Online albo mailem: co nie działa, co ma działać, jakie są ograniczenia (dane, terminy, budżet).</p></li>
+<li><b>Wycena</b><p>Zakres na piśmie, cena i to, czego zakres nie obejmuje. Zanim cokolwiek zacznę.</p></li>
+<li><b>Realizacja</b><p>Zdalnie, małymi krokami, z kopią przed każdą zmianą i podglądem postępów.</p></li>
+<li><b>Poprawki</b><p>Uwagi wprowadzam w ustalonym zakresie; większe zmiany wyceniam osobno.</p></li>
+<li><b>Przekazanie</b><p>Pliki, dostępy, krótka instrukcja i opis tego, co sprawdziłem. Potem wsparcie, jeśli potrzebne.</p></li>
 </ol>
 <div class="faq">
 <details><summary>Czy pracujesz tylko zdalnie?</summary><p>Tak. Administrację, wdrożenia i poprawki robię przez zdalny dostęp, po wcześniejszym ustaleniu godzin.</p></details>
 <details><summary>Jak wyceniasz zlecenie?</summary><p>Indywidualnie, po rozmowie albo obejrzeniu materiałów. Dostajesz zakres i cenę przed rozpoczęciem pracy.</p></details>
 <details><summary>Co dzieje się z danymi firmy?</summary><p>Tam, gdzie to możliwe, korzystam z narzędzi działających lokalnie, na waszym sprzęcie. Dokumenty nie trafiają do zewnętrznych usług bez waszej zgody.</p></details>
+<details><summary>Jak wygląda zdalny dostęp?</summary><p>Tylko na czas pracy, przez narzędzie, które możecie zamknąć w każdej chwili. Po zakończeniu dostęp jest odbierany, a hasła użyte przy pracy warto zmienić.</p></details>
+<details><summary>Czego nie robię?</summary><p>Wdrożeń w dużych środowiskach chmurowych (Azure, Intune), prac na miejscu w serwerowni ani automatycznych wysyłek bez akceptacji. Jeśli zlecenie przekracza moje doświadczenie, mówię to przy wycenie.</p></details>
 </div>
-<p class="stack">Narzędzia: Python, PowerShell, Windows / MSIX, Ollama, Supabase, n8n, Git, FFmpeg, Blender, WebGL.</p>
+<p class="stack">Kod i automatyzacja: Python, PowerShell (podstawy), n8n (w nauce), Git. Aplikacje Windows: PySide6, C# / WPF, MSIX, Microsoft Store. AI lokalnie: Ollama, rozpoznawanie i synteza mowy, OCR. Web i 3D: HTML / CSS / JS, three.js, Supabase, Blender. Wideo: FFmpeg.</p>
 </div></section>
 
 <section id="kontakt"><div class="wrap contact">
@@ -321,6 +359,7 @@ dialog::backdrop{background:rgba(0,0,0,.75)}
 <div class="kick">Kontakt</div>
 <h2>Opisz, co ma działać</h2>
 <p class="lead">Napisz kilka zdań o problemie albo pomyśle. Odpowiem z pytaniami albo propozycją zakresu.</p>
+<p class="lead" style="margin-top:14px;font-size:16px">Na początek wystarczy na przykład: „Biuro, cztery osoby, faktury przychodzą na jedną skrzynkę. Chcemy co rano listę do zapłaty”.</p>
 </div>
 <div class="box">
 <a class="mail" href="mailto:jacek.grodnicki@proton.me?subject=Zlecenie%20%E2%80%94%20opis">jacek.grodnicki@proton.me</a>
@@ -341,7 +380,9 @@ d.onclick=()=>d.close();
 // powiększanie zrzutów: klik albo Enter, zamyka klik lub Esc
 document.querySelectorAll('.shot').forEach(i=>{i.tabIndex=0;i.setAttribute('role','button');const o=()=>{lb.firstChild.src=i.src;lb.firstChild.alt=i.alt;lb.showModal()};i.onclick=o;i.onkeydown=e=>{if(e.key==='Enter')o()}});
 lb.onclick=()=>lb.close();
-// wejścia kafelków i treści przy przewijaniu
+// wejścia kafelków i pasek postępu przewijania
+const pasek=document.getElementById('pasek');
+addEventListener('scroll',()=>{const h=document.documentElement,m=h.scrollHeight-innerHeight;pasek.style.transform='scaleX('+(m>0?scrollY/m:0)+')'},{passive:true});
 if(document.documentElement.classList.contains('js-anim')){
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const n=e.target;io.unobserve(n);n.classList.add('in');setTimeout(()=>n.style.transitionDelay='',1400)}),{rootMargin:'0px 0px -8% 0px'});
   document.querySelectorAll('.grid>.card,.case,.frame,.prod,section h2,section .lead,.steps>li,.faq>details,.stack,.contact .box').forEach(n=>{n.classList.add('rv');n.style.transitionDelay=[...n.parentNode.children].indexOf(n)%3*90+'ms';io.observe(n)});
