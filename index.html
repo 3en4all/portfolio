@@ -79,8 +79,11 @@ nav .links a.cta:hover{background:var(--acc-hi)}
 
 /* wejścia kafelków przy przewijaniu: spokojne pojawienie, bez przestrzelenia i błysku; klasę js-anim dodaje skrypt w head */
 #pasek{position:fixed;left:0;right:0;top:0;height:3px;background:var(--acc);box-shadow:0 0 10px var(--acc);transform-origin:0 50%;transform:scaleX(0);z-index:100;pointer-events:none}
-.js-anim .rv{opacity:0;transform:translateY(20px);transition:transform .8s cubic-bezier(.2,.7,.2,1),opacity .8s ease,box-shadow .3s}
-.js-anim .rv.in{opacity:1;transform:none}
+/* animacja na osobnej właściwości translate: hover (transform) działa od razu i w swoim tempie; efekt wraca przy każdym wejściu w widok, w dół i w górę */
+.js-anim .rv:not(.in){opacity:0}
+.js-anim .rv.in{animation:rv-in .8s cubic-bezier(.2,.7,.2,1) var(--rv-d,0ms) both}
+@keyframes rv-in{from{opacity:0;translate:0 var(--rv-y,20px)}to{opacity:1;translate:0 0}}
+.js-anim .rv:is(.prod,.grid .card){transition:transform .3s,box-shadow .3s}
 .js-anim .rv.in:is(.frame,.prod,.grid .card):hover{transform:translateY(-5px);box-shadow:0 12px 30px rgba(225,6,0,.22)}
 .hero .lead{margin-bottom:28px;color:#b8c3d6}
 .hero .btns{display:flex;flex-wrap:wrap;gap:12px}
@@ -384,8 +387,10 @@ lb.onclick=()=>lb.close();
 const pasek=document.getElementById('pasek');
 addEventListener('scroll',()=>{const h=document.documentElement,m=h.scrollHeight-innerHeight;pasek.style.transform='scaleX('+(m>0?scrollY/m:0)+')'},{passive:true});
 if(document.documentElement.classList.contains('js-anim')){
-  const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const n=e.target;io.unobserve(n);n.classList.add('in');setTimeout(()=>n.style.transitionDelay='',1400)}),{rootMargin:'0px 0px -8% 0px'});
-  document.querySelectorAll('.grid>.card,.case,.frame,.prod,section h2,section .lead,.steps>li,.faq>details,.stack,.contact .box').forEach(n=>{n.classList.add('rv');n.style.transitionDelay=[...n.parentNode.children].indexOf(n)%3*90+'ms';io.observe(n)});
+  // pokaż: z dołu albo z góry, zależnie od kierunku; schowaj dopiero, gdy kafel całkiem zniknie z ekranu
+  const pokaz=new IntersectionObserver(es=>es.forEach(e=>{const n=e.target;if(!e.isIntersecting||n.classList.contains('in'))return;n.style.setProperty('--rv-y',e.boundingClientRect.top<0?'-20px':'20px');n.classList.add('in')}),{rootMargin:'0px 0px -8% 0px'});
+  const schowaj=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)e.target.classList.remove('in')}));
+  document.querySelectorAll('.grid>.card,.case,.frame,.prod,section h2,section .lead,.steps>li,.faq>details,.stack,.contact .box').forEach(n=>{n.classList.add('rv');n.style.setProperty('--rv-d',[...n.parentNode.children].indexOf(n)%3*90+'ms');pokaz.observe(n);schowaj.observe(n)});
 }
 document.querySelector('.theme').onclick=()=>{const r=document.documentElement,n=r.dataset.theme==='light'?'dark':'light';r.dataset.theme=n;try{localStorage.setItem('motyw',n)}catch(e){}};
 </script>
